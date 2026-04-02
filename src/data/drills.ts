@@ -54,7 +54,7 @@ export const FOCUS_AREA_DESCRIPTIONS: Record<string, string> = {
   "endzone offense":
     "Execute in tight spaces with flood patterns, give-and-go scores, and efficient red zone offense.",
   "hex offense":
-    "Install and refine hex offensive structure — spacing, resets, isolation cuts, and positional flow.",
+    "Learn hex offense through small-sided games, throw-and-run technique, connected spacing, and shape recognition -- built from how top hex coaches actually teach it.",
 };
 
 export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "description">> = {
@@ -345,59 +345,59 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
   },
   "hex offense": {
     warmup: {
-      name: "Hex Spacing Warm-Up",
+      name: "Throw-and-Run Technique + Keepdisc",
       description:
-        "Place 6 cones in a hexagon shape — like a stop sign missing one side — with about 20 yards between each cone. One player stands at each cone. Jog clockwise around the hex, stopping at each cone for a dynamic stretch: lunges at cone 1, frankensteins at cone 2, high knees at cone 3, butt kicks at cone 4, lateral shuffles at cone 5, carioca at cone 6. After one full loop, grab a disc and throw 10 passes to the player at the cone across from you (forehand and backhand).",
+        "Part 1 (5 min): In pairs, 10 yards apart. Practice the throw-and-run: after each throw, lift your non-pivot knee high and sprint 5 yards forward before stopping. Do 5 reps backhand, 5 forehand, 5 off-hand. The point is building the habit of moving immediately after releasing the disc, not standing and watching. Part 2 (10 min): Split into two teams of 7 (or as close as you can). Play keepdisc in a half-field box. Offense tries to complete as many consecutive passes as possible without scoring -- just keep possession. Switch on turnovers. Count passes out loud.",
       coaching_points: [
-        "Get comfortable with where each position is — you need to know the hex shape by feel",
-        "When throwing, work different angles: straight across, to your left neighbor, to your right neighbor",
-        "Move at game speed between cones, not a lazy jog",
+        "Throw-and-run is THE core hex technique -- if you throw and stand still, the offense stalls",
+        "In keepdisc, stay about 10 yards from your nearest teammates -- close enough to make easy throws, far enough that your defender can't clog two lanes",
+        "Take the open pass even if it doesn't gain yards. Lateral and backward passes are fine -- movement is the point, not field position",
       ],
-      equipment: ["cones (6)", "discs (6)"],
+      equipment: ["cones (4)", "discs (6)"],
     },
     drill_1: {
-      name: "Hex Reset Flow",
+      name: "Small-Sided Progression: 2v2 to 4v4",
       description:
-        "6 players, one at each cone of the hex. One player starts with a disc. They have 3 seconds to throw to a neighbor — you can only throw to a cone directly next to yours, not across. After you throw, jog clockwise to the next cone. The receiver now has 3 seconds to throw to one of their neighbors. Keep the disc moving continuously. If the disc hits the ground or the 3-second count expires, reset and start over.",
+        "Start with 2v2 in a 20x30 yard box. Play to 3 points, then rotate pairs. Rules: take the open pass, even if it's lateral. Players should end up side-by-side as often as one-in-front-of-the-other. After 2v2 rounds, move to 3v3 in a 25x35 box (same rules, add: after you throw, move to an open spot -- don't stand where you threw from). Finish with 4v4 in a 30x40 box (add: if the stall count hits 5, you must throw a reset -- no hero balls).",
       coaching_points: [
-        "The point of hex is that you always have 2 or 3 easy options nearby — look for them",
-        "Start moving to the next cone as the throw is released, not after",
-        "Crisp, flat throws — sloppy passes slow the whole rotation down",
+        "In 2v2, notice how often the best throw is sideways, not forward -- that's hex thinking",
+        "In 3v3, the player who just threw should be the one moving most aggressively to a new spot",
+        "In 4v4, start reading where the open space is before you get the disc -- if everyone crowds one side, the whole other side of the box is empty",
       ],
-      equipment: ["cones (6)", "discs (2)"],
+      equipment: ["cones (8)", "discs (4)", "pinnies (8)"],
     },
     drill_2: {
-      name: "Hex Isolation Cuts",
+      name: "Shape Setup Race + Whistle Freeze",
       description:
-        "6 offensive players at the hex cones, 3 defenders. Each defender picks one offensive player to guard — that leaves 3 offensive players completely unguarded. The offense's job: move the disc around the hex (max 4 throws) to get it to one of the unguarded players. Defenders can switch who they're covering between reps. After 3 reps, rotate 3 new defenders in.",
+        "Part 1 -- Shape Race (5 min): Two teams of 7. Coach throws a disc onto the field. Both teams race to set up correct hex spacing around the disc: 2 backs (behind/level with the disc), 2 wings (out toward the sidelines, connected to backs), 1 hat (central, in front of disc), 2 forwards (furthest downfield, connected to hat and wings). 'Connected' means about 10 yards apart -- close enough for an easy throw, far enough your defender can't guard two people. First team set correctly wins the rep. 5 reps with the disc in different field positions. Part 2 -- Whistle Freeze (15 min): Play 7v7. Whenever the stall count hits 3, coach blows a whistle and everyone freezes. Look at the offense's shape: are positions filled? Is anyone too far away or crowding? Fix the shape, then resume.",
       coaching_points: [
-        "Before you throw, scan the hex — which 3 spots are uncovered? Move the disc toward them.",
-        "Use your eyes and fakes to pull defenders one direction, then throw the other way",
-        "The hex naturally creates open players — don't force a throw into traffic when someone else is wide open",
+        "The hex shape rotates with the disc -- when the disc is on the sideline, the whole shape shifts. Don't think of it as fixed field positions",
+        "'Connected' is the key concept: ~10 yards from your nearest teammates. If you're 25 yards from everyone, you're disconnected and useless",
+        "The most common mistake: everyone drifts downfield and nobody is behind the disc. If the back positions are empty, there's no reset option",
       ],
-      equipment: ["cones (6)", "discs (3)", "pinnies (6)"],
+      equipment: ["cones (4)", "discs (3)", "pinnies (14)"],
     },
     scrimmage: {
-      name: "7v7 Hex Offense vs. Person D",
+      name: "7v7 Hex Scrimmage with Shape Checks",
       description:
-        "Full 7v7 scrimmage on a regulation field. Offense must line up in the hex shape before every point starts (6 players in the hex, 1 handler with the disc in the middle or behind). Defense plays person-to-person. Normal scoring rules. After each point, pause and check: did the offense maintain hex spacing as they moved the disc, or did everyone clump together?",
+        "Full 7v7 on a regulation field. Before each point, offense sets up in hex shape: call a pull catcher, everyone else positions relative to that person (not fixed field spots). Play normal rules. Coach watches for shape breakdowns -- if flow dies and the stall count is climbing, blow the whistle, freeze, let the offense fix their spacing, then resume. After each point, quick team huddle: what worked, where did the shape collapse? Play to 5.",
       coaching_points: [
-        "After you throw, don't stand and watch — fill back into an open spot in the hex shape",
-        "The 7th player (not in the hex) is the free option — they cut into gaps when the defense shifts",
-        "Once you get within 20 yards of the endzone, the hex is too spread out — switch to a tighter endzone set like flood",
+        "Don't call positions on the line -- part of learning hex is reading where to go based on where the disc and your teammates are",
+        "After you throw forward from a back position, you're already in a good spot -- don't automatically clear deep out of habit. Stay if no one is replacing you.",
+        "Near the endzone (~15 yards out), the hex gets too wide. Compress into a tighter set for the final throw",
       ],
       equipment: ["cones (4)", "discs (3)", "pinnies (14)"],
     },
     conditioning: {
-      name: "Hex Sprint Rotations",
+      name: "Throw-and-Go Relay",
       description:
-        "Set up the 6-cone hex. Start at any cone. Sprint diagonally across the hex to the cone on the opposite side (about 40 yards). Then jog to the next cone clockwise (about 20 yards). Sprint across again. Jog to the next. Keep going until you've sprinted from all 6 cones. That's one set. Rest 45 seconds. Do 4 sets.",
+        "Two lines facing each other, 15 yards apart. Player 1 throws to Player 2 and immediately sprints to the back of Player 2's line. Player 2 catches, throws to the next person in Player 1's line, and sprints to the back of that line. Keep it continuous for 3 minutes. Rest 1 minute. Do 3 rounds. Each round, increase the distance by 5 yards (15, 20, 25). If a throw is dropped, the thrower does 5 burpees and the drill continues.",
       coaching_points: [
-        "Sprint the long diagonal, use the short jog to recover",
-        "Stay light on your feet through the direction changes at each cone",
-        "This is the actual movement pattern in hex offense — long burst, short reposition, repeat",
+        "This is throw-and-run at speed under fatigue -- exactly what hex demands",
+        "Throw accuracy matters more as you get tired -- focus on a clean release, not just speed",
+        "Sprint hard to the back of the line -- the recovery happens while you're waiting, not while you're moving",
       ],
-      equipment: ["cones (6)"],
+      equipment: ["cones (4)", "discs (4)"],
     },
   },
 };
