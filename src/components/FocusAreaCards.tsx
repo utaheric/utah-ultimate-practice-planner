@@ -5,8 +5,12 @@ const ICONS: Record<string, string> = {
   "zone defense": "\u{1F6E1}\uFE0F",
   "handler movement": "\u{1F3AF}",
   "break throws": "\u{1F4A5}",
-  "endzone offense": "\u{1F3C6}",
+  "red zone offense": "\u{1F3C6}",
   "hex offense": "\u2B21",
+  "reset corners": "\u{1F501}",
+  "scram defense": "\u{1F6A8}",
+  "double team": "\u{1F91D}",
+  "chunk yards": "\u26A1",
 };
 
 interface Props {

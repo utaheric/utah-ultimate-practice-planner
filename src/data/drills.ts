@@ -44,17 +44,25 @@ export const FREE_PLAY: Drill & { duration: number } = {
 
 export const FOCUS_AREA_DESCRIPTIONS: Record<string, string> = {
   cutting:
-    "Sharpen offensive cuts — fakes, timing, explosiveness, and creating separation from defenders.",
+    "Sharpen offensive cuts — power cuts, attack-column timing, explosiveness, and creating 2v2/3v3 separation games.",
   "zone defense":
-    "Master zone defensive sets, shifting, communication, and trapping the sideline.",
+    "Master zone defensive sets (3-2-2, 1-3-3), shifting, communication, and trapping the sideline. This is traditional zone — NOT SCRAM.",
   "handler movement":
-    "Develop handler resets, weaves, dump-swing continuations, and disc movement under pressure.",
+    "Develop handler resets through the four reset corners (Alpha, Beta, Burnie, Trail), weaves, dump-swing continuations, and disc movement under pressure.",
   "break throws":
     "Build a complete break-throw arsenal — IO backhands, around forehands, high-release, and reading the mark.",
-  "endzone offense":
-    "Execute in tight spaces with flood patterns, give-and-go scores, and efficient red zone offense.",
+  "red zone offense":
+    "Score efficiently inside 20 yards using the Shred red zone system: shift from vertical to lateral, attack break-side-in-motion, front cones primary, back cones last resort.",
   "hex offense":
     "Learn hex offense through small-sided games, throw-and-run technique, connected spacing, and shape recognition -- built from how top hex coaches actually teach it.",
+  "reset corners":
+    "Master the four named reset positions — Alpha, Beta, Burnie, and Trail — with shown-space mechanics, switch reads, and the 'hurry up and wait' principle.",
+  "scram defense":
+    "Learn SCRAM: cascading person-to-person pressure (NOT zone). Send to hot spots, pass-off vs switch, Cover 3 rotation, and the Recognize-Respect-Reduce return-to-man framework.",
+  "double team":
+    "Offense and defense double-team concepts. Offense: 360 pivots, contact as ally, cutter engagement (double fills, party cuts, strikes). Defense: 45, 90 Front, 90 Back, Sandwich sets.",
+  "chunk yards":
+    "The primary offensive engine: cutter-to-cutter continuations through the attack column, power cuts under and deep, varied stack formations (3-2, 4-1, 2-1-2), and breaking the force side.",
 };
 
 export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "description">> = {
@@ -75,9 +83,9 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
       description:
         "Set 3 cones in a triangle (15 yards apart). Cutter starts at cone A, makes a hard fake toward cone B, plants and cuts to cone C to receive. Thrower is at the top. Rotate after each rep. Progress to live defender.",
       coaching_points: [
-        "Change of speed is more important than change of direction",
+        "Use power cuts: change of speed is more important than change of direction — first 3 steps at max acceleration",
         "Attack the disc — don't wait for it to arrive",
-        "Clear hard after the catch to keep space",
+        "Clear hard after the catch to keep space in the attack column",
       ],
       equipment: ["cones (3)", "discs (3)"],
     },
@@ -97,9 +105,9 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
       description:
         "3 offense vs 3 defense in a 30x30 yard box. Offense must complete 5 passes (no hucks) to score. Defense plays person-to-person. Rotate on turnover or score. Focus: creating and using space.",
       coaching_points: [
-        "Clear out after 2 seconds if you don't have the disc",
-        "Cut WITH purpose — know if you're going under or deep before you move",
-        "Defenders: deny the first step",
+        "Create 2v2 and 3v3 games — coordinate cuts with your partner, don't cut in isolation",
+        "Cut WITH purpose — power cuts under and deep through the attack column, not lateral drifts",
+        "Defenders: deny the first step, win the inside hip",
       ],
       equipment: ["cones (4)", "discs (2)", "pinnies (6)"],
     },
@@ -133,8 +141,8 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
         "Set up a 3-2-2 zone (cup + wings + deeps). Walk through shifts as the disc moves: swing left, swing right, up-line. No offense yet. Coach calls out disc position and players shift. Build to jog speed.",
       coaching_points: [
         "Cup stays connected — arm's length from each other",
-        "Wings key off the disc, not the person",
-        "Deeps communicate 'last back' and 'no around'",
+        "Wings key off the disc, not the person — this is what makes zone DIFFERENT from SCRAM (where you always have a primary person assignment)",
+        "Deeps communicate 'last back' and 'no around'. Zone is about space coverage; SCRAM is about cascading person pressure.",
       ],
       equipment: ["cones (8)", "discs (2)", "pinnies (7)"],
     },
@@ -156,7 +164,7 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
       coaching_points: [
         "Transition from person D to zone set must happen in < 3 seconds",
         "After a turn, zone must reset before offense advances the disc",
-        "Poach lanes, not people — take away throwing windows",
+        "Zone = guard space, SCRAM = guard people with cascading help. Don't mix them — commit fully to zone in this drill.",
       ],
       equipment: ["cones (4)", "discs (3)", "pinnies (14)"],
     },
@@ -178,9 +186,9 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
       description:
         "Partners 15 yards apart. Practice handler resets: dump swing, around break, IO break, give-and-go. 5 of each. Then jog figure-8s around cones with dynamic stretches.",
       coaching_points: [
-        "Reset cut should be at 45 degrees behind the disc",
-        "Thrower: pivot to create the angle, don't force it flat",
-        "Catch with momentum toward the next throw",
+        "Think in terms of the four reset corners: Alpha (power dump), Beta (aggressive break-side), Burnie (break lane), Trail (far behind)",
+        "Thrower: pivot to create the angle for whichever corner the reset shows in",
+        "Catch with momentum toward the next throw — 'hurry up and wait' applies here too",
       ],
       equipment: ["cones (4)", "discs (6)"],
     },
@@ -189,9 +197,9 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
       description:
         "3 handlers advance the disc up a sideline using only resets and swings. No downfield throws allowed. Each handler must touch the disc. Progress to adding a mark.",
       coaching_points: [
-        "After you throw, MOVE — become the next reset option",
-        "Timing: don't cut to the reset spot until the thrower is looking",
-        "Stay balanced on the catch — ready to throw immediately",
+        "After you throw, MOVE — fill the Alpha or Trail corner for the next handler",
+        "Timing: show space at a reset corner, then wait — don't drift through it",
+        "Stay balanced on the catch — ready to throw immediately from any reset corner",
       ],
       equipment: ["cones (6)", "discs (2)"],
     },
@@ -200,9 +208,9 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
       description:
         "4-person drill: handler dumps to reset, reset swings to far-side handler, who hits the continuation cutter. Emphasize flow and timing. Add live marks after 5 minutes.",
       coaching_points: [
-        "The swing throw should be a leading pass — don't make them stop",
+        "The dump should come from the Alpha or Beta corner — show space in the correct reset position",
         "Continuation cutter starts moving on the swing release",
-        "Reset handler: LOUD call — 'dump! dump!' — so the thrower knows",
+        "Reset handler: LOUD call — 'Alpha!' or 'Beta!' — name the corner so the thrower knows where to look",
       ],
       equipment: ["cones (6)", "discs (3)"],
     },
@@ -286,61 +294,61 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
       equipment: ["cones (6)", "discs (6)"],
     },
   },
-  "endzone offense": {
+  "red zone offense": {
     warmup: {
-      name: "Endzone Throwing Warm-Up",
+      name: "Lateral Throwing Warm-Up",
       description:
-        "Partners at 10 yards (tight endzone spacing). Practice short passes: 5 touch forehands, 5 touch backhands, 5 scoobers, 5 blades. Pair with high-knee jog, karaoke, and A-skips.",
+        "Partners at 10 yards (tight red zone spacing). 5 touch forehands, 5 touch backhands, then 10 break-side-in-motion throws: thrower pivots and leads the receiver laterally across the field. Pair with high-knee jog, lateral shuffles, and A-skips. Focus on throws that move the disc sideways, not just forward — this is the core red zone skill.",
       coaching_points: [
-        "Tight spaces = quick release and soft touch",
-        "Scoobers and blades are real endzone weapons — practice them",
-        "Make eye contact before throwing in tight windows",
+        "In the red zone, vertical momentum stops and lateral movement takes over — practice that shift now",
+        "Break-side-in-motion throws need a soft leading touch, not a bullet",
+        "Make eye contact before throwing into tight windows — the endzone is crowded",
       ],
       equipment: ["cones (4)", "discs (8)"],
     },
     drill_1: {
-      name: "Endzone Flood Drill",
+      name: "Front Cone Attack",
       description:
-        "Set a 20x25 yard endzone. 3 cutters start stacked at the front cone. On 'go': first cutter goes break side, second goes open side, third goes deep. Thrower reads and hits the open cutter. Rotate positions.",
+        "Set a 20x25 yard endzone with 4 cones: 2 'front cones' at the near corners of the endzone, 2 'back cones' at the far corners. Disc starts at the front of the endzone. 3 cutters set up in a stack. On 'go', cutters attack ONLY the front cones — one goes break-side-in-motion, one fills open-side front cone, one clears deep as a decoy. Thrower reads and hits whoever is open at a front cone. Rotate every 3 reps. The point: front cones are your primary target, back cones are last resort.",
       coaching_points: [
-        "Timing is everything — don't all go at once",
-        "First cutter clears if not open within 2 seconds",
-        "Thrower: take what the defense gives you",
+        "Front cones are PRIMARY — 80% of red zone scores should come from the front two cones",
+        "Break-side-in-motion is the highest-value cut: running laterally across the endzone while the disc is moving",
+        "Back cones are bail-out only — if your first look is the back cone, you're reading it wrong",
       ],
       equipment: ["cones (6)", "discs (3)"],
     },
     drill_2: {
-      name: "Red Zone Give-Go-Score",
+      name: "Handler-as-Facilitator Combos",
       description:
-        "Disc starts at the front of the endzone. Handler gives a short pass to a cutter, then cuts for the give-and-go score. Add a mark and downfield defender after 5 reps. Emphasize the finish.",
+        "3v3 in a 20-yard-deep endzone. The handler with the disc CANNOT score — they can only facilitate by throwing to cutters who score, or by throwing give-and-go combos where the handler cuts after releasing. After each score, rotate who is the designated facilitator. Add a mark after 5 reps. This teaches handlers to generate looks and combo plays instead of hero-ball hucks.",
       coaching_points: [
-        "The give-and-go works because the defense relaxes after the first throw",
-        "Cutter: catch and immediately look for the handler cutting",
-        "Score with conviction — attack the disc in the endzone",
+        "Handlers in the red zone are facilitators, not scorers — generate looks for cutters",
+        "Give-and-go combos work because the defense relaxes after the first throw",
+        "Read the defense: if they collapse on the front cones, the back cone opens. But only go there as a LAST resort",
       ],
       equipment: ["cones (4)", "discs (3)"],
     },
     scrimmage: {
-      name: "Endzone-Only Points",
+      name: "Red Zone Scrimmage (20-Yard Box)",
       description:
-        "Start every point from the brick mark (20 yards out). Offense has 3 throws to score. If they don't score in 3, turnover. Play to 7. Forces efficient endzone execution.",
+        "Start every point from 20 yards out. Offense has 5 throws to score. If they don't score in 5, turnover. Play to 7. Between points, coach calls out what just happened: 'That was a front cone score — great.' or 'That was a back cone bailout — how could we have attacked the front cones instead?' Force the team to internalize front-cone-first thinking.",
       coaching_points: [
-        "No hero throws — move the disc to create the open look",
-        "Clear space for each other — one cutter in the lane at a time",
-        "After a turn, defensive transition must be instant",
+        "Shift from vertical to lateral the moment you enter the red zone — stop pushing forward and start moving sideways",
+        "Attack break-side-in-motion as the primary look every single time",
+        "No hero throws — if nothing is open in 2 seconds, reset and try the combo again",
       ],
       equipment: ["cones (4)", "discs (2)", "pinnies (14)"],
     },
     conditioning: {
-      name: "Endzone Suicide Sprints",
+      name: "Lateral Explosion Intervals",
       description:
-        "Sprint from endzone line to 5 yards, back. To 10, back. To 15, back. To 20, back. Rest 45 seconds. 5 sets. Simulates the short, explosive bursts of endzone play.",
+        "Set 4 cones in a 10-yard square. Sprint to cone 1 (forward), shuffle to cone 2 (lateral), backpedal to cone 3, shuffle to cone 4 (lateral), sprint diagonally to start. Rest 30 seconds. 8 reps. Simulates the multi-directional movement of red zone offense — forward, lateral, backward, lateral.",
       coaching_points: [
-        "Touch the line every time — discipline matters",
-        "Decelerate under control — protect your knees",
-        "Last set is the one that counts",
+        "Stay low through the lateral shuffles — red zone cuts are short and explosive",
+        "The diagonal sprint simulates the break-side-in-motion cut — full speed",
+        "Maintain form even when tired — red zone efficiency drops when legs go",
       ],
-      equipment: ["cones (5)"],
+      equipment: ["cones (4)"],
     },
   },
   "hex offense": {
@@ -398,6 +406,234 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
         "Sprint hard to the back of the line -- the recovery happens while you're waiting, not while you're moving",
       ],
       equipment: ["cones (4)", "discs (4)"],
+    },
+  },
+  "reset corners": {
+    warmup: {
+      name: "Four-Corner Reset Warm-Up",
+      description:
+        "Set 4 cones around a handler: Alpha (power-side behind), Beta (aggressive break-side behind), Burnie (break-side lateral), Trail (far behind, least guarded). A handler stands with a disc. One reset player jogs to each position in sequence — Alpha, Beta, Burnie, Trail — receives a pass at each spot, throws it back, then moves to the next. 5 full rotations per pair. This builds muscle memory for WHERE the four reset positions are.",
+      coaching_points: [
+        "Alpha is the 'power position' — easy to read, easy to throw, but vulnerable to switches. It's the dump everyone knows.",
+        "Beta is more aggressive — tighter throwing window, but harder for the defense to switch or junk. Think of it as the dump they DON'T expect.",
+        "Burnie opens break-side lanes with easy throws. Trail is the least-guarded corner — great for give-and-go break looks.",
+      ],
+      equipment: ["cones (8)", "discs (6)"],
+    },
+    drill_1: {
+      name: "Shown Space & Hurry-Up-and-Wait",
+      description:
+        "3-person drill: thrower, reset, defender on the reset. Reset player must 'show space' — sprint hard to one reset corner (e.g. Alpha), pause for half a second to show the thrower they're open (the 'hurry up' part), then WAIT there instead of continuing to run (the 'wait' part). If the throw doesn't come in 1 second, clear to a different corner and show space again. Thrower has a stall count of 5. Rotate after 5 reps. Progress: defender plays live, reset must read which corner the defender gives up.",
+      coaching_points: [
+        "The core principle is 'hurry up and wait' — sprint to the spot, then STOP. Don't drift through it.",
+        "Show space means making yourself visible AND throwable — face the thrower, hands ready, not running away from them",
+        "If the defender face-guards you at Alpha, Burnie and Trail are wide open. Read the defense, don't just run patterns.",
+      ],
+      equipment: ["cones (4)", "discs (3)"],
+    },
+    drill_2: {
+      name: "Switch Reads & Counter Moves",
+      description:
+        "4v4 in a 20x30 yard box. Offense must complete 2 reset touches before going downfield. Defense is instructed to switch on every reset cut for the first 5 points, then play straight-up for the next 5. Offense must learn to READ the switch: if the defense switches, the give-and-go from Alpha is dead — go to Beta or Trail instead. If they DON'T switch, Alpha give-and-go is gold. After each point, offense says out loud: 'They switched' or 'They didn't switch' — build the habit of reading it.",
+      coaching_points: [
+        "Alpha is vulnerable to switches — if you see the switch happen, immediately bail to Beta or Trail",
+        "Beta combos are harder to switch because the defender has to travel further. Exploit that.",
+        "Read defense over the course of the game: are they switching every time? Only sometimes? Adjust your first look accordingly.",
+      ],
+      equipment: ["cones (4)", "discs (2)", "pinnies (8)"],
+    },
+    scrimmage: {
+      name: "7v7 Reset Priority Points",
+      description:
+        "Full 7v7 scrimmage with a special rule: after every completed reset, the stall count resets to 0 (instead of staying where it was). This rewards teams that use their resets aggressively. Play to 5. Between points, coach asks: 'Which corner did you reset to? Was it the right read?' Defense can play anything — person, switch, junk. Offense must adapt their reset corner reads to whatever the defense shows.",
+      coaching_points: [
+        "Use ALL four corners over the course of the game — if you only go to Alpha, the defense will take it away",
+        "The best reset is the one the defense isn't expecting. Vary your first look each possession.",
+        "Hurry up and wait: sprint to the corner, show space, be patient. Don't panic if the first look isn't there.",
+      ],
+      equipment: ["cones (4)", "discs (3)", "pinnies (14)"],
+    },
+    conditioning: {
+      name: "Four-Corner Sprint Circuit",
+      description:
+        "Set 4 cones in a diamond, 10 yards apart (representing Alpha, Beta, Burnie, Trail). Sprint from center to Alpha, back to center. Sprint to Beta, back. Sprint to Burnie, back. Sprint to Trail, back. That's 1 rep. Rest 20 seconds. 8 reps. Each sprint simulates the explosive cut to a reset position.",
+      coaching_points: [
+        "Plant hard at each cone — simulate arriving at the reset position and stopping ('hurry up and wait')",
+        "First 3 steps out of the center are everything — be explosive",
+        "Maintain form through all 8 reps — resets happen in the 4th quarter too",
+      ],
+      equipment: ["cones (5)"],
+    },
+  },
+  "scram defense": {
+    warmup: {
+      name: "Cascading Pressure Warm-Up",
+      description:
+        "Groups of 4: 3 defenders, 1 offensive player with a disc. The 3 defenders are in a triangle, 10 yards apart. Coach calls a 'hot spot' (mark, reset, under, deep) and the nearest defender sprints to that spot while the other two shift to cover the gaps. No offense yet — just building the movement patterns. Then add a second offensive player who runs routes while defenders practice the cascading shifts. 5 minutes of walkthroughs, 5 minutes at jog speed.",
+      coaching_points: [
+        "SCRAM is NOT zone — it's cascading person-to-person pressure. You always have a primary assignment; you're just helping teammates when the hot spot appears.",
+        "The shift is a SPRINT, not a jog. If you're walking to the hot spot, the offense will eat you alive.",
+        "Success in SCRAM is usually established by players two removed from the play — the help defender's help defender is the one who makes it work.",
+      ],
+      equipment: ["cones (8)", "discs (4)"],
+    },
+    drill_1: {
+      name: "Pass-Off vs Switch Drill",
+      description:
+        "3v3 in a 20x20 yard box. Defenders practice two distinct techniques: SWITCH (two defenders swap assignments when cutters cross) and PASS-OFF (the receiving defender sprints ahead and overtakes, keeping the original matchup). Coach calls 'switch!' or 'pass-off!' before each rep so defenders know which technique to use. After 5 reps of each, play 5 live reps where defenders choose which technique fits the situation. The key difference: in a pass-off, the receiving defender must SPRINT past to overtake — they don't just bump and trade.",
+      coaching_points: [
+        "Pass-off is NOT the same as a switch — the receiving defender sprints and overtakes to maintain the advantageous matchup",
+        "Switch when the cutters are even and neither defender has leverage. Pass-off when one defender has a clear speed or position advantage worth keeping.",
+        "Communicate LOUDLY: 'switch!' or 'I've got through!' — if you're silent, collisions happen and nobody covers anyone",
+      ],
+      equipment: ["cones (4)", "discs (2)", "pinnies (6)"],
+    },
+    drill_2: {
+      name: "Cover 3 Rotation & Hot Spot Sends",
+      description:
+        "7v4 drill: 7 offensive players set up in a standard vertical stack, 4 defenders play SCRAM coverage. The 4 defenders form a rotating triangle (Cover 3) plus one 'send' defender who goes to the hot spot. Coach designates the hot spot before each rep: mark, reset, open-side under, or deep. The send defender sprints to the hot spot. The other 3 rotate into Cover 3: one takes the force-side deep, one takes the break-side deep, one becomes the 'voice and joystick' — the weakside defender who directs traffic and calls out threats. Offense runs their cuts; defense practices the rotation. 5 reps at each hot spot.",
+      coaching_points: [
+        "The weakside defender in Cover 3 is the 'voice and joystick' — they don't guard anyone directly but call out every threat and direct traffic",
+        "When the send goes to the hot spot, the Cover 3 rotation must happen IMMEDIATELY — no delay or the offense finds the gap",
+        "Return-to-man framework: Recognize the threat is gone, Respect that the offense might counter, Reduce back to your primary assignment",
+      ],
+      equipment: ["cones (4)", "discs (3)", "pinnies (8)"],
+    },
+    scrimmage: {
+      name: "7v7 SCRAM Points",
+      description:
+        "Full 7v7 scrimmage. Defense MUST play SCRAM (not zone, not straight person-to-person). Before each point, defense huddles and designates: who is the initial send? What's the hot spot? Play to 5. After each point, defense debriefs: 'Did we recognize when to return to man? Did the Cover 3 rotation hold?' Coach should watch for defenders who forget to return to their primary assignment after the SCRAM pressure is no longer needed (the 'Reduce' step).",
+      coaching_points: [
+        "SCRAM is NOT zone — you always have a person. The send is temporary extra pressure, not a permanent poach.",
+        "The Recognize-Respect-Reduce framework: Recognize the threat is neutralized, Respect that offense might adjust, THEN Reduce back to your primary matchup",
+        "If SCRAM feels like zone, you're doing it wrong. Every defender should be able to name their primary assignment at any moment.",
+      ],
+      equipment: ["cones (4)", "discs (3)", "pinnies (14)"],
+    },
+    conditioning: {
+      name: "SCRAM Sprint Rotations",
+      description:
+        "4 players, 4 cones in a 15-yard square. Player 1 sprints to the hot spot (cone 2), Player 2 rotates to cover Player 1's cone, Player 3 rotates to cover Player 2's cone, Player 4 becomes the voice (stays and points). Whistle: everyone resets. New hot spot called. 30 seconds on, 15 seconds rest. 10 rounds. Simulates the cascading sprint-and-rotate movement pattern of SCRAM.",
+      coaching_points: [
+        "The sprint to the hot spot must be full speed — half-speed SCRAM doesn't work",
+        "The cascade (2 covers 1, 3 covers 2) must happen in ONE beat, not sequentially",
+        "The voice player points and calls — practice being loud even when winded",
+      ],
+      equipment: ["cones (4)"],
+    },
+  },
+  "double team": {
+    warmup: {
+      name: "360 Pivot & Contact Warm-Up",
+      description:
+        "Partners face each other, 2 yards apart. Player with disc practices full 360-degree pivots: start facing the partner (mark), pivot all the way around while keeping the disc protected, looking for throwing lanes at every angle. 10 full pivots each direction. Then: partner applies light hand pressure on the thrower's shoulder while they pivot — practice using the contact as information (where is the defender?) rather than fighting it. Pair with arm circles, hip openers, and wrist rolls.",
+      coaching_points: [
+        "360 pivots create throwing lanes that don't exist in a normal forehand-backhand pivot — practice looking for windows at every angle",
+        "Contact is an ALLY in a double team — the body pressure tells you where the defenders are without having to look",
+        "Keep the disc high and protected during the pivot. If you drop the disc to waist level during the spin, the trap defender will get a hand block.",
+      ],
+      equipment: ["cones (4)", "discs (8)"],
+    },
+    drill_1: {
+      name: "Double Team Offensive Reads",
+      description:
+        "3v3: 1 handler with disc, 2 cutters vs 2 defenders on the mark + 1 trapping defender. The trapper sets up in one of 4 positions that the coach calls: 45 (force negative throw from middle), 90 Front (funnel throws down the sideline), 90 Back (force backfield/hammer throws), or Sandwich (limit throwing motion on the goal line). Handler must recognize which set the defense is in and find the correct escape: 360 pivot past the 45, high release over the 90 Front, quick inside break against the 90 Back, or patience against the Sandwich. Cutters run engagement routes: double fills (two cutters filling the same lane to create confusion), party cuts (one cutter screens for another), and strikes (hard cuts directly at the disc). 5 reps per defensive set.",
+      coaching_points: [
+        "Read the trap set FIRST: Is it 45? 90 Front? 90 Back? Sandwich? Each has a different escape route.",
+        "Against 45: your full 360 pivot creates a lane the 45 can't cover. Against 90 Front: go high release or hammer over the top.",
+        "Cutters: double fills and party cuts are your best friend against a double team — they create confusion for the off-disc defenders",
+      ],
+      equipment: ["cones (4)", "discs (3)", "pinnies (6)"],
+    },
+    drill_2: {
+      name: "Defensive Double Team Sets",
+      description:
+        "4v4: 2 defenders on the mark (primary mark + trapper), 2 defenders on cutters. Defense practices the 4 double team sets. Coach calls the set before each rep. 45: trapper positions 45 degrees from the mark, forcing the thrower to throw a negative (backwards) throw. 90 Front: trapper is 90 degrees in front, funneling throws down the sideline. 90 Back: trapper is 90 degrees behind, forcing backfield or hammer throws. Sandwich: both defenders face the thrower from opposite sides, limiting all throwing motion (used on the goal line). Defense rotates through all 4 sets. Offense plays live. The goal is NOT a hand block — it's gaining an advantage for your teammates off the disc.",
+      coaching_points: [
+        "The goal of the double team is NOT a hand block — it's forcing a bad throw that gives your off-disc teammates an advantage",
+        "45 set: position yourself to take away the thrower's first instinct. 90 Front: make them throw into your wall.",
+        "Sandwich is a GOAL LINE set only. Don't use it in open field — the thrower will pivot around you.",
+      ],
+      equipment: ["cones (4)", "discs (3)", "pinnies (8)"],
+    },
+    scrimmage: {
+      name: "7v7 Double Team Triggers",
+      description:
+        "Full 7v7 scrimmage. Defense plays normal person-to-person, but coach designates a 'trigger' — a specific field position (e.g. sideline trap, mid-field, goal line) where the defense must throw a double team. When the disc reaches the trigger zone, the nearest off-disc defender sprints to trap. Play to 5. Between points, debrief both sides: offense — 'Did you recognize the trap coming? Did your cutters engage?' Defense — 'Did the trap create an advantage for the off-disc defenders? Or did the thrower escape?'",
+      coaching_points: [
+        "The double team should feel like a surprise to the offense — sprint to the trap, don't jog",
+        "Offense: when you see the trap coming, cutters must engage IMMEDIATELY with double fills, party cuts, or strikes — don't leave the handler alone",
+        "Defense: the off-disc defenders are the real weapon. The double team holds the disc; the off-disc defenders take away the escape.",
+      ],
+      equipment: ["cones (4)", "discs (3)", "pinnies (14)"],
+    },
+    conditioning: {
+      name: "Pivot Power & Sprint Recovery",
+      description:
+        "At a cone: 5 full 360-degree pivots (alternating direction), then throw. Sprint 20 yards to the next cone, catch a pass, 5 more 360 pivots, throw. Sprint to the next. 4 stations. Rest 30 seconds. 4 sets. This simulates the physical demand of escaping a double team (sustained pivoting under pressure) followed by the sprint to the next action.",
+      coaching_points: [
+        "Full 360s — don't cheat to 270. The disc must make a complete revolution.",
+        "Stay balanced through the pivot even when tired — double teams in the 4th quarter are the ones that matter",
+        "Throw quality after the pivot matters more than pivot speed — a turnover from a rushed pivot is worse than a stall",
+      ],
+      equipment: ["cones (4)", "discs (4)"],
+    },
+  },
+  "chunk yards": {
+    warmup: {
+      name: "Cutter-to-Cutter Continuation Warm-Up",
+      description:
+        "Two lines of cutters face each other, 20 yards apart, with a handler at one end. Handler throws to Cutter 1 who is cutting under. Cutter 1 catches, pivots, and immediately throws a continuation pass to Cutter 2 who is cutting deep from the opposite line. Cutter 2 catches, pivots, and throws back to a new Cutter 1 cutting under. Continuous flow — no stopping. The point: chunk yards are gained through cutter-to-cutter continuations, not handler-to-cutter-back-to-handler.",
+      coaching_points: [
+        "The key to chunk yards is cutter-to-cutter — the disc should NOT come back to the handler after every throw",
+        "Power cuts: explode into the cut with your first 3 steps at max speed. Change of speed > change of direction.",
+        "The continuation cutter starts moving the moment the first throw is released — timing, not reaction",
+      ],
+      equipment: ["cones (6)", "discs (6)"],
+    },
+    drill_1: {
+      name: "Attack Column 2v2 & 3v3",
+      description:
+        "Set a 15-yard-wide 'attack column' down the center of the field (mark with cones on both sides). Play 2v2 inside the column: cutters can only operate within the column, making power cuts under and deep. Handler starts the disc from outside the column. Cutter 1 cuts under, catches, hits Cutter 2 going deep — that's a chunk. Play to 3 chunks (a 'chunk' = a cutter-to-cutter completion that gains 10+ yards). Then expand to 3v3: same rules, but now cutters must create 2v2 and 3v3 games within the column — isolations, picks, and coordinated cuts.",
+      coaching_points: [
+        "The attack column is where chunk yards happen — keep the disc in the middle of the field, not the sideline",
+        "In 2v2, one cutter goes under while the other goes deep. Simple. Don't overthink it.",
+        "In 3v3, create games: two cutters running coordinated cuts to free the third. Think 'pick and roll' from basketball.",
+      ],
+      equipment: ["cones (8)", "discs (3)", "pinnies (6)"],
+    },
+    drill_2: {
+      name: "Stack Formation Progression",
+      description:
+        "Walk through 3 stack formations, then play live from each. Formation 1: 3-2 stack (3 cutters in a line, 2 behind/beside). Cutter 1 attacks under, Cutter 2 attacks deep, Cutter 3 fills the vacated space. Formation 2: 4-1 stack (4 in a tight stack, 1 iso cutter). The iso cutter has the entire break-side to work with. Formation 3: 2-1-2 stack (2 up, 1 middle, 2 back). The middle player is the trigger — when they cut, the others react. Play 5 live reps from each formation. Cutters must stay ahead of the defense by attacking break-side and avoiding the sidelines.",
+      coaching_points: [
+        "3-2 is your default: balanced, versatile, hard to defend. Use it when you don't have a specific plan.",
+        "4-1 is for your best cutter — give them space and let them work. The 4-stack clears the lane.",
+        "2-1-2 creates natural 2v2 games at the top and bottom. The middle player is the trigger who decides which game starts first.",
+      ],
+      equipment: ["cones (8)", "discs (3)", "pinnies (8)"],
+    },
+    scrimmage: {
+      name: "7v7 Chunk Yards Scrimmage",
+      description:
+        "Full 7v7 with a modified scoring system: a 'chunk' (any cutter-to-cutter completion gaining 10+ yards) is worth 1 point. A goal is worth 3 points. Play to 15. This incentivizes the team to move the disc through the attack column with cutter-to-cutter continuations instead of dump-swing-dump-swing. Between points, coach calls out which stack formation to use for the next point (rotate through 3-2, 4-1, and 2-1-2).",
+      coaching_points: [
+        "Handlers maintain flow shape — keep the disc moving, but let the cutters do the yards work",
+        "Stay ahead of the defense: after a chunk, the next cut should already be happening. Don't let the defense recover.",
+        "Attack break-side aggressively — the defense overplays the open side in chunk yards because that's where the easy throws are. Punish them.",
+      ],
+      equipment: ["cones (4)", "discs (3)", "pinnies (14)"],
+    },
+    conditioning: {
+      name: "Power Cut Intervals",
+      description:
+        "3 cones in a line, 15 yards apart. Sprint under-cut to cone 1 (15 yards), plant, sprint deep to cone 2 (30 yards total), plant, sprint under to cone 3 (15 yards). That's 1 rep — 45 yards of power cuts. Rest 30 seconds. 8 reps. The cuts must be POWER cuts: first 3 steps at absolute maximum acceleration, not a gradual buildup.",
+      coaching_points: [
+        "Power cuts are the engine of chunk yards — if you jog into the cut, the defender stays with you",
+        "First 3 steps are everything. Explode out of the plant like a sprinter out of blocks.",
+        "Maintain cutting form even on rep 8 — chunk yards happen in the 4th quarter when legs are heavy",
+      ],
+      equipment: ["cones (3)"],
     },
   },
 };
