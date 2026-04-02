@@ -18,7 +18,7 @@ export default function FocusAreaCards({ onSelect }: Props) {
     <section className="focus-cards-section">
       <div className="focus-intro">
         <h2>Select a Focus Area</h2>
-        <p>Choose a skill to generate a full 90-minute practice plan.</p>
+        <p>Choose a skill to generate a full 120-minute practice plan.</p>
       </div>
       <div className="focus-grid">
         {FOCUS_AREAS.map((key) => (

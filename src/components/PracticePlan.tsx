@@ -99,7 +99,7 @@ export default function PracticePlan({ focusKey, onBack }: Props) {
           </div>
           <div className="plan-meta-item">
             <span className="meta-label">Duration</span>
-            <span className="meta-value">90 min</span>
+            <span className="meta-value">120 min</span>
           </div>
         </div>
       </div>

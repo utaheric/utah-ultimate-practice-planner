@@ -416,11 +416,11 @@ export function generateSchedule(focusKey: string): ScheduleBlock[] {
   if (!drills) return [];
 
   const sections: { key: string; label: string; drill: Drill; duration: number }[] = [
-    { key: "warmup", label: "Warm-Up", drill: drills.warmup, duration: 10 },
-    { key: "drill_1", label: "Skill Drill 1", drill: drills.drill_1, duration: 15 },
-    { key: "drill_2", label: "Skill Drill 2", drill: drills.drill_2, duration: 15 },
-    { key: "scrimmage", label: "Scrimmage", drill: drills.scrimmage, duration: 20 },
-    { key: "conditioning", label: "Conditioning", drill: drills.conditioning, duration: 10 },
+    { key: "warmup", label: "Warm-Up", drill: drills.warmup, duration: 15 },
+    { key: "drill_1", label: "Skill Drill 1", drill: drills.drill_1, duration: 20 },
+    { key: "drill_2", label: "Skill Drill 2", drill: drills.drill_2, duration: 20 },
+    { key: "scrimmage", label: "Scrimmage", drill: drills.scrimmage, duration: 30 },
+    { key: "conditioning", label: "Conditioning", drill: drills.conditioning, duration: 15 },
     { key: "cooldown", label: "Cool-Down", drill: COOLDOWN, duration: COOLDOWN.duration },
     { key: "freeplay", label: "Free Play", drill: FREE_PLAY, duration: FREE_PLAY.duration },
   ];
