@@ -347,55 +347,55 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
     warmup: {
       name: "Hex Spacing Warm-Up",
       description:
-        "Set 6 cones in hex formation (20 yards between each). Players jog to each position, perform a dynamic stretch at each cone: lunges, frankensteins, high knees, butt kicks, lateral shuffles, carioca. Then 10 throws each side.",
+        "Place 6 cones in a hexagon shape — like a stop sign missing one side — with about 20 yards between each cone. One player stands at each cone. Jog clockwise around the hex, stopping at each cone for a dynamic stretch: lunges at cone 1, frankensteins at cone 2, high knees at cone 3, butt kicks at cone 4, lateral shuffles at cone 5, carioca at cone 6. After one full loop, grab a disc and throw 10 passes to the player at the cone across from you (forehand and backhand).",
       coaching_points: [
-        "Learn the hex positions — know where you are on the field",
-        "Throwing: hit the person at the next hex point, work all angles",
-        "Move at game speed even in warm-up",
+        "Get comfortable with where each position is — you need to know the hex shape by feel",
+        "When throwing, work different angles: straight across, to your left neighbor, to your right neighbor",
+        "Move at game speed between cones, not a lazy jog",
       ],
       equipment: ["cones (6)", "discs (6)"],
     },
     drill_1: {
       name: "Hex Reset Flow",
       description:
-        "6 players in hex formation. Disc starts at any point. Player with disc must connect to an adjacent hex point within 3 seconds. After throw, rotate one position clockwise. No skipping positions.",
+        "6 players, one at each cone of the hex. One player starts with a disc. They have 3 seconds to throw to a neighbor — you can only throw to a cone directly next to yours, not across. After you throw, jog clockwise to the next cone. The receiver now has 3 seconds to throw to one of their neighbors. Keep the disc moving continuously. If the disc hits the ground or the 3-second count expires, reset and start over.",
       coaching_points: [
-        "The hex works because every position has 2-3 viable options",
-        "Move to the next spot BEFORE the throw — anticipate",
-        "Disc speed matters — crisp throws keep the defense shifting",
+        "The point of hex is that you always have 2 or 3 easy options nearby — look for them",
+        "Start moving to the next cone as the throw is released, not after",
+        "Crisp, flat throws — sloppy passes slow the whole rotation down",
       ],
       equipment: ["cones (6)", "discs (2)"],
     },
     drill_2: {
       name: "Hex Isolation Cuts",
       description:
-        "6v3 in a hex setup. 3 defenders pick up any 3 offensive players. The 3 unguarded hex points are the targets. Offense must find and hit the open player within 4 throws. Rotate defenders every 3 reps.",
+        "6 offensive players at the hex cones, 3 defenders. Each defender picks one offensive player to guard — that leaves 3 offensive players completely unguarded. The offense's job: move the disc around the hex (max 4 throws) to get it to one of the unguarded players. Defenders can switch who they're covering between reps. After 3 reps, rotate 3 new defenders in.",
       coaching_points: [
-        "Read the defense — who's unguarded? Move the disc there.",
-        "Don't stare down your target — use your eyes to move defenders",
-        "Hex creates natural isolation — trust the structure",
+        "Before you throw, scan the hex — which 3 spots are uncovered? Move the disc toward them.",
+        "Use your eyes and fakes to pull defenders one direction, then throw the other way",
+        "The hex naturally creates open players — don't force a throw into traffic when someone else is wide open",
       ],
       equipment: ["cones (6)", "discs (3)", "pinnies (6)"],
     },
     scrimmage: {
       name: "7v7 Hex Offense vs. Person D",
       description:
-        "Full 7v7. Offense must start in hex formation on every point. Defense plays straight person-to-person. Offense scores normally. After each point, coach reviews whether hex spacing was maintained.",
+        "Full 7v7 scrimmage on a regulation field. Offense must line up in the hex shape before every point starts (6 players in the hex, 1 handler with the disc in the middle or behind). Defense plays person-to-person. Normal scoring rules. After each point, pause and check: did the offense maintain hex spacing as they moved the disc, or did everyone clump together?",
       coaching_points: [
-        "After a throw, fill back into the hex — don't leave gaps",
-        "The 7th player is the 'floater' — use them as the continuation option",
-        "Hex collapses in the endzone — switch to flood or flood-iso",
+        "After you throw, don't stand and watch — fill back into an open spot in the hex shape",
+        "The 7th player (not in the hex) is the free option — they cut into gaps when the defense shifts",
+        "Once you get within 20 yards of the endzone, the hex is too spread out — switch to a tighter endzone set like flood",
       ],
       equipment: ["cones (4)", "discs (3)", "pinnies (14)"],
     },
     conditioning: {
       name: "Hex Sprint Rotations",
       description:
-        "6 cones in hex. Sprint from your cone to the one directly across (40 yards), jog to the next clockwise cone. Repeat until you've hit all 6. Rest 45 seconds. 4 sets.",
+        "Set up the 6-cone hex. Start at any cone. Sprint diagonally across the hex to the cone on the opposite side (about 40 yards). Then jog to the next cone clockwise (about 20 yards). Sprint across again. Jog to the next. Keep going until you've sprinted from all 6 cones. That's one set. Rest 45 seconds. Do 4 sets.",
       coaching_points: [
-        "Sprint the long leg, recover on the jog",
-        "Stay light on your feet — quick direction changes",
-        "This mirrors the movement patterns of hex offense",
+        "Sprint the long diagonal, use the short jog to recover",
+        "Stay light on your feet through the direction changes at each cone",
+        "This is the actual movement pattern in hex offense — long burst, short reposition, repeat",
       ],
       equipment: ["cones (6)"],
     },
