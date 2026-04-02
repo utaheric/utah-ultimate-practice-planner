@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import FocusAreaCards from "./components/FocusAreaCards";
 import PracticePlan from "./components/PracticePlan";
 import PlanBuilder from "./components/PlanBuilder";
@@ -6,6 +6,8 @@ import History from "./components/History";
 import MyDrills from "./components/MyDrills";
 import SeasonCalendar from "./components/SeasonCalendar";
 import Roster from "./components/Roster";
+import SharedPlanView from "./components/SharedPlanView";
+import { getShareDataFromHash, type SharedPractice } from "./data/sharing";
 import "./App.css";
 
 type Page = "plan" | "history" | "drills" | "season" | "roster";
@@ -14,6 +16,18 @@ function App() {
   const [page, setPage] = useState<Page>("plan");
   const [selectedFocus, setSelectedFocus] = useState<string | null>(null);
   const [showBuilder, setShowBuilder] = useState(false);
+  const [sharedPractice, setSharedPractice] = useState<SharedPractice | null>(
+    () => getShareDataFromHash()
+  );
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const data = getShareDataFromHash();
+      if (data) setSharedPractice(data);
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   const handleSelect = useCallback((key: string) => {
     setSelectedFocus(key);
@@ -39,6 +53,36 @@ function App() {
     setShowBuilder(false);
     window.scrollTo(0, 0);
   }, []);
+
+  if (sharedPractice) {
+    return (
+      <div className="app">
+        <header className="app-header">
+          <div className="header-content">
+            <div className="header-brand">
+              <div className="header-logo">&#x1F94F;</div>
+              <div>
+                <h1 className="header-title">Utah Ultimate</h1>
+                <p className="header-subtitle">Practice Planner</p>
+              </div>
+            </div>
+          </div>
+        </header>
+        <main className="app-main">
+          <SharedPlanView
+            practice={sharedPractice}
+            onClose={() => {
+              setSharedPractice(null);
+              window.history.replaceState(null, "", window.location.pathname);
+            }}
+          />
+        </main>
+        <footer className="app-footer">
+          <p>Utah Ultimate Practice Planner</p>
+        </footer>
+      </div>
+    );
+  }
 
   return (
     <div className="app">
