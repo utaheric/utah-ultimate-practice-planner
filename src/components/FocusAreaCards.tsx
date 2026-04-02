@@ -11,9 +11,10 @@ const ICONS: Record<string, string> = {
 
 interface Props {
   onSelect: (key: string) => void;
+  onBuildCustom: () => void;
 }
 
-export default function FocusAreaCards({ onSelect }: Props) {
+export default function FocusAreaCards({ onSelect, onBuildCustom }: Props) {
   return (
     <section className="focus-cards-section">
       <div className="focus-intro">
@@ -37,6 +38,14 @@ export default function FocusAreaCards({ onSelect }: Props) {
             <p className="focus-card-desc">{FOCUS_AREA_DESCRIPTIONS[key]}</p>
           </button>
         ))}
+        <button className="focus-card focus-card-custom" onClick={onBuildCustom}>
+          <span className="focus-card-icon">&#x1F527;</span>
+          <h3 className="focus-card-title">Build Custom Plan</h3>
+          <p className="focus-card-desc">
+            Mix drills from any focus area into a custom practice plan with
+            drag-and-drop.
+          </p>
+        </button>
       </div>
     </section>
   );

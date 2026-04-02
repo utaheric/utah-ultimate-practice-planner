@@ -5,6 +5,7 @@ import {
   deleteSavedPractice,
   type SavedPractice,
 } from "../data/storage";
+import { encodeShareUrl } from "../data/sharing";
 import type { ScheduleBlock } from "../data/drills";
 
 const SECTION_COLORS: Record<string, string> = {
@@ -79,6 +80,27 @@ export default function History() {
     },
     [editNotes]
   );
+
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const handleShare = useCallback(async (practice: SavedPractice) => {
+    const url = encodeShareUrl(practice);
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedId(practice.id);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch {
+      // Fallback for older browsers
+      const input = document.createElement("input");
+      input.value = url;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
+      setCopiedId(practice.id);
+      setTimeout(() => setCopiedId(null), 2000);
+    }
+  }, []);
 
   const hasNotes = (notes: SavedPractice["notes"]) =>
     notes.workedWell || notes.needsReps || notes.playerNotes || notes.adjustments;
@@ -233,6 +255,14 @@ export default function History() {
                   </div>
 
                   <div className="history-actions">
+                    <button
+                      className={`btn-share ${copiedId === practice.id ? "copied" : ""}`}
+                      onClick={() => handleShare(practice)}
+                    >
+                      {copiedId === practice.id
+                        ? "Link Copied!"
+                        : "Share Practice"}
+                    </button>
                     <button
                       className="btn-danger"
                       onClick={() => handleDelete(practice.id)}

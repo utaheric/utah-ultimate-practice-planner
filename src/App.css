@@ -1216,3 +1216,823 @@
     align-self: flex-end;
   }
 }
+
+/* ===== Custom Plan Card ===== */
+
+.focus-card-custom {
+  border-style: dashed;
+  border-width: 2px;
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+
+.focus-card-custom:hover {
+  background: var(--bg-card);
+}
+
+/* ===== Plan Builder ===== */
+
+.builder-duration-picker {
+  display: flex;
+  gap: 6px;
+}
+
+.builder-dur-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+
+.builder-dur-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.builder-dur-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.over-time {
+  color: #dc2626 !important;
+}
+
+.builder-slots {
+  margin-bottom: 32px;
+}
+
+.builder-slots-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.builder-slots-header h3 {
+  font-size: 20px;
+}
+
+.builder-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+.builder-slot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.builder-slot {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+  cursor: grab;
+  transition: all 0.15s;
+}
+
+.builder-slot:active {
+  cursor: grabbing;
+}
+
+.builder-slot.drag-over {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.builder-slot-accent {
+  width: 4px;
+  height: 36px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.builder-slot-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.builder-slot-name {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.builder-slot-meta {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.builder-slot-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.builder-slot-reorder {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.builder-move-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 10px;
+  color: var(--text-muted);
+  line-height: 1;
+  transition: all 0.15s;
+}
+
+.builder-move-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.builder-move-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.builder-duration-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.builder-dur-ctrl {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.builder-dur-ctrl:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.builder-dur-ctrl:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.builder-dur-value {
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 36px;
+  text-align: center;
+}
+
+.builder-remove-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.builder-remove-btn:hover {
+  background: #dc2626;
+  color: white;
+  border-color: #dc2626;
+}
+
+@media (max-width: 600px) {
+  .builder-slot {
+    flex-wrap: wrap;
+  }
+
+  .builder-slot-controls {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* ===== Drill Picker Modal ===== */
+
+.picker-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 0.15s ease;
+}
+
+@media (min-width: 601px) {
+  .picker-overlay {
+    align-items: center;
+  }
+}
+
+.picker-modal {
+  background: var(--bg-card);
+  border-radius: var(--radius) var(--radius) 0 0;
+  max-height: 85vh;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.2s ease;
+}
+
+@media (min-width: 601px) {
+  .picker-modal {
+    border-radius: var(--radius);
+    max-height: 70vh;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.picker-header h3 {
+  font-size: 18px;
+}
+
+.picker-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--text-muted);
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.picker-close:hover {
+  color: var(--text);
+}
+
+.picker-filters {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.picker-search {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.picker-search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.picker-focus-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.picker-focus-filters .focus-toggle {
+  font-size: 11px;
+  padding: 4px 10px;
+}
+
+.picker-list {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.picker-item {
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  color: var(--text);
+  transition: background 0.1s;
+}
+
+.picker-item:hover:not(:disabled) {
+  background: var(--bg);
+}
+
+.picker-item:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.picker-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.picker-item-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.picker-item-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.picker-item-add {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+/* ===== Attendance Section ===== */
+
+.attendance-section {
+  margin-bottom: 32px;
+}
+
+.attendance-section h3 {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.attendance-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.attendance-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+
+.attendance-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+  min-width: 120px;
+  cursor: pointer;
+}
+
+.attendance-check input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.attendance-note-input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.attendance-note-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+@media (max-width: 600px) {
+  .attendance-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .attendance-check {
+    min-width: auto;
+  }
+}
+
+/* ===== Season Calendar ===== */
+
+.season-section {
+  animation: fadeIn 0.3s ease;
+}
+
+.season-header {
+  margin-bottom: 24px;
+}
+
+.season-header h2 {
+  font-size: 28px;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.season-date-setup {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.season-date-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.season-date-row .form-field {
+  margin-bottom: 0;
+}
+
+.season-summary {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.season-summary h3 {
+  font-size: 16px;
+  margin-bottom: 14px;
+}
+
+.season-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.season-summary-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.season-color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.season-summary-label {
+  font-weight: 600;
+}
+
+.season-summary-count {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-left: auto;
+}
+
+.season-warning {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+  .season-warning {
+    background: rgba(251, 191, 36, 0.15);
+    color: #fbbf24;
+  }
+}
+
+.season-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.season-month-label {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.season-week-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.season-week-cell {
+  position: relative;
+}
+
+.season-week-btn {
+  width: 100%;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.15s;
+  min-height: 64px;
+}
+
+.season-week-btn:hover {
+  box-shadow: var(--shadow);
+  border-color: var(--text-muted);
+}
+
+.season-week-btn.assigned {
+  border-width: 2px;
+}
+
+.season-week-date {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.season-week-focus {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.season-week-empty {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.season-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  min-width: 180px;
+  padding: 4px;
+  margin-top: 4px;
+  animation: slideDown 0.15s ease;
+}
+
+.season-dropdown-item {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.1s;
+}
+
+.season-dropdown-item:hover {
+  background: var(--bg);
+}
+
+.season-dropdown-clear {
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  padding-top: 8px;
+  border-radius: 0 0 6px 6px;
+}
+
+/* ===== Roster ===== */
+
+.roster-section {
+  animation: fadeIn 0.3s ease;
+}
+
+.roster-header {
+  margin-bottom: 24px;
+}
+
+.roster-header h2 {
+  font-size: 28px;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.roster-add {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.roster-name-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--font);
+  background: var(--bg-card);
+  color: var(--text);
+}
+
+.roster-name-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.1);
+}
+
+.roster-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.roster-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.roster-card-header {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.roster-card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.roster-player-name {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.roster-player-stats {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.roster-card-body {
+  border-top: 1px solid var(--border);
+  padding: 16px;
+  animation: slideDown 0.2s ease;
+}
+
+.roster-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.roster-edit-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.roster-edit-input {
+  padding: 6px 10px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  width: 200px;
+}
+
+.roster-log h4 {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.roster-log-entry {
+  border-left: 3px solid var(--accent);
+  padding: 8px 12px;
+  margin-bottom: 8px;
+}
+
+.roster-log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.roster-log-date {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.roster-log-focus {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.roster-log-note {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.timeline-empty {
+  border: 2px dashed rgba(255, 255, 255, 0.3) !important;
+  background: transparent !important;
+}

@@ -8,9 +8,12 @@ import {
 } from "../data/drills";
 import {
   savePracticeToHistory,
+  saveAttendanceRecord,
   generateId,
   loadCustomDrills,
+  loadRoster,
   type CustomDrill,
+  type Player,
 } from "../data/storage";
 
 interface Props {
@@ -70,6 +73,15 @@ export default function PracticePlan({ focusKey, onBack, onSaved }: Props) {
   const [swaps, setSwaps] = useState<Record<string, Drill>>({});
   const [swapOpen, setSwapOpen] = useState<string | null>(null);
 
+  // Attendance
+  const roster = useMemo(() => loadRoster(), []);
+  const [attendance, setAttendance] = useState<Record<string, boolean>>(() => {
+    const rec: Record<string, boolean> = {};
+    for (const p of loadRoster()) rec[p.id] = true;
+    return rec;
+  });
+  const [playerNotes, setPlayerNotes] = useState<Record<string, string>>({});
+
   const baseSchedule = useMemo(() => generateSchedule(focusKey), [focusKey]);
 
   // Apply any swapped drills
@@ -127,17 +139,25 @@ export default function PracticePlan({ focusKey, onBack, onSaved }: Props) {
   );
 
   const handleSave = useCallback(() => {
+    const practiceId = generateId();
     savePracticeToHistory({
-      id: generateId(),
+      id: practiceId,
       date,
       focusKey,
       schedule,
       notes,
       savedAt: new Date().toISOString(),
     });
+    if (roster.length > 0) {
+      saveAttendanceRecord({
+        practiceId,
+        attendance,
+        playerNotes,
+      });
+    }
     setSaved(true);
     if (onSaved) onSaved();
-  }, [date, focusKey, schedule, notes, onSaved]);
+  }, [date, focusKey, schedule, notes, roster, attendance, playerNotes, onSaved]);
 
   return (
     <div className="plan">
@@ -264,6 +284,43 @@ export default function PracticePlan({ focusKey, onBack, onSaved }: Props) {
           />
         </div>
       </section>
+
+      {roster.length > 0 && (
+        <section className="attendance-section">
+          <h3>Attendance</h3>
+          <div className="attendance-grid">
+            {roster.map((player: Player) => (
+              <div key={player.id} className="attendance-row">
+                <label className="attendance-check">
+                  <input
+                    type="checkbox"
+                    checked={attendance[player.id] ?? false}
+                    onChange={(e) =>
+                      setAttendance((prev) => ({
+                        ...prev,
+                        [player.id]: e.target.checked,
+                      }))
+                    }
+                  />
+                  <span>{player.name}</span>
+                </label>
+                <input
+                  type="text"
+                  className="attendance-note-input"
+                  placeholder="Notes..."
+                  value={playerNotes[player.id] || ""}
+                  onChange={(e) =>
+                    setPlayerNotes((prev) => ({
+                      ...prev,
+                      [player.id]: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       <div className="print-bar no-print">
         <button className="print-button" onClick={() => window.print()}>

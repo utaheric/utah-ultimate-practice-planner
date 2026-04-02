@@ -75,3 +75,91 @@ export function deleteSavedPractice(id: string): void {
 export function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
+
+/* ===== Season Plan ===== */
+
+export interface SeasonWeek {
+  weekStart: string; // ISO date (Monday of that week)
+  focusArea: string | null;
+}
+
+export interface SeasonPlan {
+  startDate: string;
+  endDate: string;
+  weeks: SeasonWeek[];
+}
+
+const SEASON_KEY = "practice-planner-season";
+
+export function loadSeasonPlan(): SeasonPlan | null {
+  try {
+    const raw = localStorage.getItem(SEASON_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveSeasonPlan(plan: SeasonPlan): void {
+  localStorage.setItem(SEASON_KEY, JSON.stringify(plan));
+}
+
+/* ===== Roster ===== */
+
+export interface Player {
+  id: string;
+  name: string;
+}
+
+const ROSTER_KEY = "practice-planner-roster";
+
+export function loadRoster(): Player[] {
+  try {
+    const raw = localStorage.getItem(ROSTER_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveRoster(players: Player[]): void {
+  localStorage.setItem(ROSTER_KEY, JSON.stringify(players));
+}
+
+/* ===== Attendance ===== */
+
+export interface PracticeAttendance {
+  practiceId: string;
+  attendance: Record<string, boolean>; // playerId -> present
+  playerNotes: Record<string, string>; // playerId -> note
+}
+
+const ATTENDANCE_KEY = "practice-planner-attendance";
+
+export function loadAllAttendance(): PracticeAttendance[] {
+  try {
+    const raw = localStorage.getItem(ATTENDANCE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveAttendanceRecord(record: PracticeAttendance): void {
+  const all = loadAllAttendance();
+  const idx = all.findIndex((r) => r.practiceId === record.practiceId);
+  if (idx !== -1) {
+    all[idx] = record;
+  } else {
+    all.push(record);
+  }
+  localStorage.setItem(ATTENDANCE_KEY, JSON.stringify(all));
+}
+
+export function getAttendanceForPractice(
+  practiceId: string
+): PracticeAttendance | null {
+  return (
+    loadAllAttendance().find((r) => r.practiceId === practiceId) ?? null
+  );
+}

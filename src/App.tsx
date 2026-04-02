@@ -1,22 +1,34 @@
 import { useState, useCallback } from "react";
 import FocusAreaCards from "./components/FocusAreaCards";
 import PracticePlan from "./components/PracticePlan";
+import PlanBuilder from "./components/PlanBuilder";
 import History from "./components/History";
 import MyDrills from "./components/MyDrills";
+import SeasonCalendar from "./components/SeasonCalendar";
+import Roster from "./components/Roster";
 import "./App.css";
 
-type Page = "plan" | "history" | "drills";
+type Page = "plan" | "history" | "drills" | "season" | "roster";
 
 function App() {
   const [page, setPage] = useState<Page>("plan");
   const [selectedFocus, setSelectedFocus] = useState<string | null>(null);
+  const [showBuilder, setShowBuilder] = useState(false);
 
   const handleSelect = useCallback((key: string) => {
     setSelectedFocus(key);
+    setShowBuilder(false);
     window.scrollTo(0, 0);
   }, []);
 
   const handleBack = useCallback(() => {
+    setSelectedFocus(null);
+    setShowBuilder(false);
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleBuildCustom = useCallback(() => {
+    setShowBuilder(true);
     setSelectedFocus(null);
     window.scrollTo(0, 0);
   }, []);
@@ -24,6 +36,7 @@ function App() {
   const navigateTo = useCallback((p: Page) => {
     setPage(p);
     setSelectedFocus(null);
+    setShowBuilder(false);
     window.scrollTo(0, 0);
   }, []);
 
@@ -63,6 +76,20 @@ function App() {
             <span>History</span>
           </button>
           <button
+            className={`nav-tab ${page === "season" ? "active" : ""}`}
+            onClick={() => navigateTo("season")}
+          >
+            <span className="nav-icon">&#x1F5D3;&#xFE0F;</span>
+            <span>Season</span>
+          </button>
+          <button
+            className={`nav-tab ${page === "roster" ? "active" : ""}`}
+            onClick={() => navigateTo("roster")}
+          >
+            <span className="nav-icon">&#x1F465;</span>
+            <span>Roster</span>
+          </button>
+          <button
             className={`nav-tab ${page === "drills" ? "active" : ""}`}
             onClick={() => navigateTo("drills")}
           >
@@ -74,8 +101,13 @@ function App() {
       <main className="app-main">
         {page === "plan" && (
           <>
-            {selectedFocus === null ? (
-              <FocusAreaCards onSelect={handleSelect} />
+            {showBuilder ? (
+              <PlanBuilder onBack={handleBack} onSaved={() => {}} />
+            ) : selectedFocus === null ? (
+              <FocusAreaCards
+                onSelect={handleSelect}
+                onBuildCustom={handleBuildCustom}
+              />
             ) : (
               <PracticePlan
                 focusKey={selectedFocus}
@@ -86,6 +118,8 @@ function App() {
           </>
         )}
         {page === "history" && <History />}
+        {page === "season" && <SeasonCalendar />}
+        {page === "roster" && <Roster />}
         {page === "drills" && <MyDrills />}
       </main>
       <footer className="app-footer">
