@@ -9,7 +9,7 @@
 .app-header {
   background: linear-gradient(135deg, #991b1b 0%, #c2410c 50%, #b45309 100%);
   color: white;
-  padding: 20px 24px;
+  padding: 16px 24px;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -22,6 +22,63 @@
   display: flex;
   align-items: center;
   gap: 14px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ===== Nav Tabs ===== */
+
+.app-nav {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 60px;
+  z-index: 99;
+}
+
+.nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+}
+
+.nav-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 10px 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+
+.nav-tab:hover {
+  color: var(--text);
+  background: var(--bg);
+}
+
+.nav-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.nav-icon {
+  font-size: 16px;
+  line-height: 1;
 }
 
 .header-logo {
@@ -604,5 +661,558 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+/* ===== Save Button ===== */
+
+.print-bar {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.save-button {
+  background: var(--green);
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  transition: background 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+
+.save-button:hover:not(:disabled) {
+  background: #15803d;
+}
+
+.save-button.saved {
+  background: var(--text-muted);
+  cursor: default;
+}
+
+/* ===== Shared Button Styles ===== */
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  transition: background 0.15s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-dark);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-danger {
+  background: none;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  color: white;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: inherit;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.text-muted {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* ===== Swap Drill UI ===== */
+
+.swap-section {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+
+.swap-toggle-btn,
+.swap-reset-btn {
+  background: var(--bg);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 8px;
+  transition: all 0.15s;
+}
+
+.swap-toggle-btn:hover,
+.swap-reset-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.swap-badge {
+  background: var(--accent);
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+}
+
+.swap-list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.swap-option {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  transition: all 0.15s;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.swap-option:hover {
+  border-color: var(--accent);
+  background: var(--bg-card);
+}
+
+.swap-option-name {
+  font-weight: 600;
+}
+
+.swap-option-tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 2px 8px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+/* ===== History ===== */
+
+.history-section {
+  animation: fadeIn 0.3s ease;
+}
+
+.history-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.history-header h2 {
+  font-size: 28px;
+  letter-spacing: -0.5px;
+}
+
+.history-empty {
+  text-align: center;
+  padding: 60px 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.history-empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.history-empty h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.history-empty p {
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.history-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.history-item-header {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.history-item-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.history-date {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.history-focus {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.history-preview {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-item-body {
+  border-top: 1px solid var(--border);
+  padding: 16px;
+  animation: slideDown 0.2s ease;
+}
+
+.history-schedule {
+  margin-bottom: 20px;
+}
+
+.history-schedule h4,
+.history-notes h4 {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.history-drill {
+  border-left: 3px solid;
+  padding: 6px 12px;
+  margin-bottom: 6px;
+}
+
+.history-drill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.history-drill-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.history-drill-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.history-drill-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.history-notes {
+  margin-bottom: 16px;
+}
+
+.history-notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.history-notes-header h4 {
+  margin-bottom: 0;
+}
+
+.history-edit-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+
+.history-edit-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.history-notes-display {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.history-notes-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.history-actions {
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* ===== My Drills ===== */
+
+.mydrills-section {
+  animation: fadeIn 0.3s ease;
+}
+
+.mydrills-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mydrills-header h2 {
+  font-size: 28px;
+  letter-spacing: -0.5px;
+}
+
+.mydrills-form {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.mydrills-form h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.form-field {
+  margin-bottom: 14px;
+}
+
+.form-field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color 0.15s;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.1);
+}
+
+.focus-area-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.focus-toggle {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+
+.focus-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.focus-toggle.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.mydrills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mydrills-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.mydrills-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.mydrills-card-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.mydrills-card-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.mydrills-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mydrills-card-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.mydrills-card-points {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .mydrills-card-top {
+    flex-direction: column;
+  }
+
+  .mydrills-card-actions {
+    align-self: flex-end;
   }
 }
