@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420">
+  <rect width="720" height="420" fill="#0f172a"/>
+  <text x="34" y="44" fill="#f97316" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="800" letter-spacing="1">OPTION 3</text>
+  <text x="34" y="72" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">Coach Dashboard Cards</text>
+  <text x="34" y="98" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="14">Adds practical metadata so the choice is easier than reading paragraphs.</text>
+
+  <g transform="translate(34 130)">
+    <rect width="312" height="118" rx="8" fill="#1f2937" stroke="#334155"/>
+    <circle cx="36" cy="36" r="18" fill="#111827" stroke="#475569"/>
+    <text x="36" y="41" fill="#f97316" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900">CU</text>
+    <text x="68" y="33" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="800">Cutting</text>
+    <text x="68" y="56" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="13">Separation, timing, burst.</text>
+    <line x1="18" y1="78" x2="294" y2="78" stroke="#334155"/>
+    <text x="18" y="101" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800">6 blocks</text>
+    <text x="104" y="101" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800">cones + discs</text>
+    <text x="226" y="101" fill="#f97316" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="900">Start</text>
+  </g>
+  <g transform="translate(374 130)">
+    <rect width="312" height="118" rx="8" fill="#1f2937" stroke="#334155"/>
+    <circle cx="36" cy="36" r="18" fill="#111827" stroke="#475569"/>
+    <text x="36" y="41" fill="#38bdf8" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900">ZD</text>
+    <text x="68" y="33" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="800">Zone Defense</text>
+    <text x="68" y="56" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="13">Shape, traps, communication.</text>
+    <line x1="18" y1="78" x2="294" y2="78" stroke="#334155"/>
+    <text x="18" y="101" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800">6 blocks</text>
+    <text x="104" y="101" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800">cones + pinnies</text>
+    <text x="226" y="101" fill="#f97316" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="900">Start</text>
+  </g>
+  <g transform="translate(34 270)">
+    <rect width="312" height="118" rx="8" fill="#1f2937" stroke="#334155"/>
+    <circle cx="36" cy="36" r="18" fill="#111827" stroke="#475569"/>
+    <text x="36" y="41" fill="#a78bfa" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900">HM</text>
+    <text x="68" y="33" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="800">Handler Movement</text>
+    <text x="68" y="56" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="13">Resets, weaves, pressure.</text>
+    <line x1="18" y1="78" x2="294" y2="78" stroke="#334155"/>
+    <text x="18" y="101" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800">5 blocks</text>
+    <text x="104" y="101" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800">discs only</text>
+    <text x="226" y="101" fill="#f97316" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="900">Start</text>
+  </g>
+  <g transform="translate(374 270)">
+    <rect width="312" height="118" rx="8" fill="#1f2937" stroke="#334155"/>
+    <circle cx="36" cy="36" r="18" fill="#111827" stroke="#475569"/>
+    <text x="36" y="41" fill="#fbbf24" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900">BT</text>
+    <text x="68" y="33" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="800">Break Throws</text>
+    <text x="68" y="56" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="13">Mark reads, releases, footwork.</text>
+    <line x1="18" y1="78" x2="294" y2="78" stroke="#334155"/>
+    <text x="18" y="101" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800">6 blocks</text>
+    <text x="104" y="101" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800">discs + cones</text>
+    <text x="226" y="101" fill="#f97316" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="900">Start</text>
+  </g>
+</svg>

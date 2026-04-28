@@ -7,6 +7,60 @@ interface ShareData {
   d: string; // date
   n?: Partial<SavedPractice["notes"]>; // notes (only non-empty)
   x?: Record<string, Drill>; // swapped drills (only changed sections)
+  s?: ScheduleBlock[]; // full schedule for custom plans
+}
+
+interface EncodeShareOptions {
+  includeNotes?: boolean;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
+
+function isNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value);
+}
+
+function isDrill(value: unknown): value is Drill {
+  return (
+    isRecord(value) &&
+    typeof value.name === "string" &&
+    typeof value.description === "string" &&
+    isStringArray(value.coaching_points) &&
+    isStringArray(value.equipment)
+  );
+}
+
+function isScheduleBlock(value: unknown): value is ScheduleBlock {
+  return (
+    isRecord(value) &&
+    isNumber(value.startMin) &&
+    isNumber(value.endMin) &&
+    typeof value.label === "string" &&
+    isDrill(value.drill) &&
+    isNumber(value.duration) &&
+    typeof value.sectionKey === "string"
+  );
+}
+
+function cloneDrill(drill: Drill): Drill {
+  return {
+    ...drill,
+    coaching_points: [...drill.coaching_points],
+    equipment: [...drill.equipment],
+  };
+}
+
+function cloneSchedule(block: ScheduleBlock): ScheduleBlock {
+  return {
+    ...block,
+    drill: cloneDrill(block.drill),
+  };
 }
 
 function toBase64Url(data: object): string {
@@ -30,7 +84,11 @@ function fromBase64Url(encoded: string): unknown {
   return JSON.parse(json);
 }
 
-export function encodeShareUrl(practice: SavedPractice): string {
+export function encodeShareUrl(
+  practice: SavedPractice,
+  options: EncodeShareOptions = {}
+): string {
+  const includeNotes = options.includeNotes ?? true;
   const defaultSchedule = generateSchedule(practice.focusKey);
   const swaps: Record<string, Drill> = {};
 
@@ -48,10 +106,14 @@ export function encodeShareUrl(practice: SavedPractice): string {
     d: practice.date,
   };
 
+  if (practice.focusKey === "custom" || defaultSchedule.length === 0) {
+    data.s = practice.schedule.map(cloneSchedule);
+  }
+
   const notes = practice.notes;
   const hasNotes =
     notes.workedWell || notes.needsReps || notes.playerNotes || notes.adjustments;
-  if (hasNotes) {
+  if (includeNotes && hasNotes) {
     const n: Partial<SavedPractice["notes"]> = {};
     if (notes.workedWell) n.workedWell = notes.workedWell;
     if (notes.needsReps) n.needsReps = notes.needsReps;
@@ -60,7 +122,7 @@ export function encodeShareUrl(practice: SavedPractice): string {
     data.n = n;
   }
 
-  if (Object.keys(swaps).length > 0) {
+  if (!data.s && Object.keys(swaps).length > 0) {
     data.x = swaps;
   }
 
@@ -83,7 +145,10 @@ export function decodeShareUrl(hash: string): SharedPractice | null {
     const data = fromBase64Url(match[1]) as ShareData;
     if (!data.f || !data.d) return null;
 
-    const schedule = generateSchedule(data.f);
+    const schedule =
+      Array.isArray(data.s) && data.s.every(isScheduleBlock)
+        ? data.s.map(cloneSchedule)
+        : generateSchedule(data.f);
     if (schedule.length === 0) return null;
 
     // Apply swaps

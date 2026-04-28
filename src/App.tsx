@@ -8,6 +8,7 @@ import SeasonCalendar from "./components/SeasonCalendar";
 import Roster from "./components/Roster";
 import SharedPlanView from "./components/SharedPlanView";
 import { getShareDataFromHash, type SharedPractice } from "./data/sharing";
+import type { SavedPractice } from "./data/storage";
 import "./App.css";
 
 type Page = "plan" | "history" | "drills" | "season" | "roster";
@@ -16,6 +17,7 @@ function App() {
   const [page, setPage] = useState<Page>("plan");
   const [selectedFocus, setSelectedFocus] = useState<string | null>(null);
   const [showBuilder, setShowBuilder] = useState(false);
+  const [builderSeed, setBuilderSeed] = useState<SavedPractice | null>(null);
   const [sharedPractice, setSharedPractice] = useState<SharedPractice | null>(
     () => getShareDataFromHash()
   );
@@ -32,18 +34,29 @@ function App() {
   const handleSelect = useCallback((key: string) => {
     setSelectedFocus(key);
     setShowBuilder(false);
+    setBuilderSeed(null);
     window.scrollTo(0, 0);
   }, []);
 
   const handleBack = useCallback(() => {
     setSelectedFocus(null);
     setShowBuilder(false);
+    setBuilderSeed(null);
     window.scrollTo(0, 0);
   }, []);
 
   const handleBuildCustom = useCallback(() => {
     setShowBuilder(true);
     setSelectedFocus(null);
+    setBuilderSeed(null);
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleRepeatPractice = useCallback((practice: SavedPractice) => {
+    setPage("plan");
+    setShowBuilder(true);
+    setSelectedFocus(null);
+    setBuilderSeed(practice);
     window.scrollTo(0, 0);
   }, []);
 
@@ -51,6 +64,7 @@ function App() {
     setPage(p);
     setSelectedFocus(null);
     setShowBuilder(false);
+    setBuilderSeed(null);
     window.scrollTo(0, 0);
   }, []);
 
@@ -60,7 +74,7 @@ function App() {
         <header className="app-header">
           <div className="header-content">
             <div className="header-brand">
-              <div className="header-logo">&#x1F94F;</div>
+                <div className="header-logo">UU</div>
               <div>
                 <h1 className="header-title">Utah Ultimate</h1>
                 <p className="header-subtitle">Practice Planner</p>
@@ -95,7 +109,7 @@ function App() {
             tabIndex={0}
             onKeyDown={(e) => e.key === "Enter" && navigateTo("plan")}
           >
-            <div className="header-logo">&#x1F94F;</div>
+            <div className="header-logo">UU</div>
             <div>
               <h1 className="header-title">Utah Ultimate</h1>
               <p className="header-subtitle">Practice Planner</p>
@@ -108,37 +122,42 @@ function App() {
           <button
             className={`nav-tab ${page === "plan" ? "active" : ""}`}
             onClick={() => navigateTo("plan")}
+            aria-label="Plan"
           >
-            <span className="nav-icon">&#x1F4CB;</span>
+            <span className="nav-icon">TP</span>
             <span>Plan</span>
           </button>
           <button
             className={`nav-tab ${page === "history" ? "active" : ""}`}
             onClick={() => navigateTo("history")}
+            aria-label="History"
           >
-            <span className="nav-icon">&#x1F4C5;</span>
+            <span className="nav-icon">HI</span>
             <span>History</span>
           </button>
           <button
             className={`nav-tab ${page === "season" ? "active" : ""}`}
             onClick={() => navigateTo("season")}
+            aria-label="Season"
           >
-            <span className="nav-icon">&#x1F5D3;&#xFE0F;</span>
+            <span className="nav-icon">SE</span>
             <span>Season</span>
           </button>
           <button
             className={`nav-tab ${page === "roster" ? "active" : ""}`}
             onClick={() => navigateTo("roster")}
+            aria-label="Roster"
           >
-            <span className="nav-icon">&#x1F465;</span>
+            <span className="nav-icon">RO</span>
             <span>Roster</span>
           </button>
           <button
             className={`nav-tab ${page === "drills" ? "active" : ""}`}
             onClick={() => navigateTo("drills")}
+            aria-label="Drill Library"
           >
-            <span className="nav-icon">&#x1F3CB;&#xFE0F;</span>
-            <span>My Drills</span>
+            <span className="nav-icon">DL</span>
+            <span>Drill Library</span>
           </button>
         </div>
       </nav>
@@ -146,11 +165,27 @@ function App() {
         {page === "plan" && (
           <>
             {showBuilder ? (
-              <PlanBuilder onBack={handleBack} onSaved={() => {}} />
+              <PlanBuilder
+                key={builderSeed?.id ?? "new-custom"}
+                onBack={handleBack}
+                onSaved={() => {}}
+                initialPractice={
+                  builderSeed
+                    ? {
+                        date: builderSeed.date,
+                        schedule: builderSeed.schedule,
+                      }
+                    : null
+                }
+              />
             ) : selectedFocus === null ? (
               <FocusAreaCards
                 onSelect={handleSelect}
                 onBuildCustom={handleBuildCustom}
+                onRepeatPractice={handleRepeatPractice}
+                onOpenHistory={() => navigateTo("history")}
+                onOpenRoster={() => navigateTo("roster")}
+                onOpenSeason={() => navigateTo("season")}
               />
             ) : (
               <PracticePlan
@@ -161,7 +196,7 @@ function App() {
             )}
           </>
         )}
-        {page === "history" && <History />}
+        {page === "history" && <History onRepeatPractice={handleRepeatPractice} />}
         {page === "season" && <SeasonCalendar />}
         {page === "roster" && <Roster />}
         {page === "drills" && <MyDrills />}

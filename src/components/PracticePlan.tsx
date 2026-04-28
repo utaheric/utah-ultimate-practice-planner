@@ -3,13 +3,16 @@ import {
   generateSchedule,
   aggregateEquipment,
   FOCUS_AREA_DESCRIPTIONS,
+  getExtraDrillsForFocus,
   type ScheduleBlock,
   type Drill,
 } from "../data/drills";
+import { toLocalDateInputValue } from "../data/date";
 import {
   savePracticeToHistory,
   saveAttendanceRecord,
   generateId,
+  loadBuiltInDrillOverrides,
   loadCustomDrills,
   loadRoster,
   type CustomDrill,
@@ -30,8 +33,7 @@ function formatTitle(key: string): string {
 }
 
 function todayString(): string {
-  const d = new Date();
-  return d.toISOString().slice(0, 10);
+  return toLocalDateInputValue();
 }
 
 function formatDate(iso: string): string {
@@ -55,8 +57,14 @@ const SECTION_COLORS: Record<string, string> = {
   freeplay: "#ec4899",
 };
 
-// Sections where custom drills can be swapped in
+// Sections where drills can be swapped in
 const SWAPPABLE_SECTIONS = ["warmup", "drill_1", "drill_2", "scrimmage", "conditioning"];
+
+interface SwapOption {
+  id: string;
+  drill: Drill;
+  source: "built-in" | "custom";
+}
 
 export default function PracticePlan({ focusKey, onBack, onSaved }: Props) {
   const [date, setDate] = useState(todayString);
@@ -82,7 +90,11 @@ export default function PracticePlan({ focusKey, onBack, onSaved }: Props) {
   });
   const [playerNotes, setPlayerNotes] = useState<Record<string, string>>({});
 
-  const baseSchedule = useMemo(() => generateSchedule(focusKey), [focusKey]);
+  const builtInOverrides = useMemo(() => loadBuiltInDrillOverrides(), []);
+  const baseSchedule = useMemo(
+    () => generateSchedule(focusKey, builtInOverrides),
+    [focusKey, builtInOverrides]
+  );
 
   // Apply any swapped drills
   const schedule = useMemo(() => {
@@ -96,10 +108,21 @@ export default function PracticePlan({ focusKey, onBack, onSaved }: Props) {
 
   const equipment = useMemo(() => aggregateEquipment(schedule), [schedule]);
 
-  // Custom drills that match this focus area
-  const customDrills = useMemo<CustomDrill[]>(() => {
-    return loadCustomDrills().filter((d) => d.focusAreas.includes(focusKey));
-  }, [focusKey]);
+  const swapOptions = useMemo<SwapOption[]>(() => {
+    const builtIn = getExtraDrillsForFocus(focusKey, builtInOverrides).map((drill, idx) => ({
+      id: `built-in-${focusKey}-${idx}`,
+      drill,
+      source: "built-in" as const,
+    }));
+    const custom = loadCustomDrills()
+      .filter((d) => d.focusAreas.includes(focusKey))
+      .map((d: CustomDrill) => ({
+        id: d.id,
+        drill: d,
+        source: "custom" as const,
+      }));
+    return [...builtIn, ...custom];
+  }, [focusKey, builtInOverrides]);
 
   const toggleSection = (key: string) => {
     setExpandedSections((prev) => {
@@ -243,7 +266,7 @@ export default function PracticePlan({ focusKey, onBack, onSaved }: Props) {
             block={block}
             expanded={expandedSections.has(block.sectionKey)}
             onToggle={() => toggleSection(block.sectionKey)}
-            customDrills={customDrills}
+            swapOptions={swapOptions}
             isSwappable={SWAPPABLE_SECTIONS.includes(block.sectionKey)}
             isSwapped={!!swaps[block.sectionKey]}
             swapOpen={swapOpen === block.sectionKey}
@@ -342,7 +365,7 @@ function DrillCard({
   block,
   expanded,
   onToggle,
-  customDrills,
+  swapOptions,
   isSwappable,
   isSwapped,
   swapOpen,
@@ -354,7 +377,7 @@ function DrillCard({
   block: ScheduleBlock;
   expanded: boolean;
   onToggle: () => void;
-  customDrills: CustomDrill[];
+  swapOptions: SwapOption[];
   isSwappable: boolean;
   isSwapped: boolean;
   swapOpen: boolean;
@@ -376,7 +399,7 @@ function DrillCard({
           <div>
             <span className="drill-card-label">
               {block.label}
-              {isSwapped && <span className="swap-badge">Custom</span>}
+              {isSwapped && <span className="swap-badge">Swapped</span>}
             </span>
             <span className="drill-card-name">{block.drill.name}</span>
           </div>
@@ -411,7 +434,7 @@ function DrillCard({
               </div>
             </div>
           )}
-          {isSwappable && customDrills.length > 0 && (
+          {isSwappable && swapOptions.length > 0 && (
             <div className="swap-section no-print">
               <button className="swap-toggle-btn" onClick={onSwapToggle}>
                 {swapOpen ? "Close" : "Swap Drill"}
@@ -434,16 +457,18 @@ function DrillCard({
                       <span className="swap-option-tag">Default</span>
                     </button>
                   )}
-                  {customDrills
-                    .filter((d) => d.name !== block.drill.name)
-                    .map((d) => (
+                  {swapOptions
+                    .filter((option) => option.drill.name !== block.drill.name)
+                    .map((option) => (
                       <button
-                        key={d.id}
+                        key={option.id}
                         className="swap-option"
-                        onClick={() => onSwap(d)}
+                        onClick={() => onSwap(option.drill)}
                       >
-                        <span className="swap-option-name">{d.name}</span>
-                        <span className="swap-option-tag">Custom</span>
+                        <span className="swap-option-name">{option.drill.name}</span>
+                        <span className="swap-option-tag">
+                          {option.source === "custom" ? "Custom" : "Built-in"}
+                        </span>
                       </button>
                     ))}
                 </div>

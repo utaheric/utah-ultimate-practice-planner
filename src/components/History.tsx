@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import {
   loadSavedPractices,
   updatePracticeNotes,
+  updatePracticeCompleted,
   deleteSavedPractice,
   type SavedPractice,
 } from "../data/storage";
@@ -17,6 +18,10 @@ const SECTION_COLORS: Record<string, string> = {
   cooldown: "#6b7280",
   freeplay: "#ec4899",
 };
+
+interface Props {
+  onRepeatPractice?: (practice: SavedPractice) => void;
+}
 
 function formatTitle(key: string): string {
   return key
@@ -36,7 +41,7 @@ function formatDate(iso: string): string {
   });
 }
 
-export default function History() {
+export default function History({ onRepeatPractice }: Props) {
   const [practices, setPractices] = useState<SavedPractice[]>(() =>
     loadSavedPractices().sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -60,6 +65,9 @@ export default function History() {
   );
 
   const handleDelete = useCallback((id: string) => {
+    if (!window.confirm("Delete this saved practice and its attendance record?")) {
+      return;
+    }
     deleteSavedPractice(id);
     setPractices((prev) => prev.filter((p) => p.id !== id));
     setExpandedId(null);
@@ -82,24 +90,49 @@ export default function History() {
   );
 
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copiedPlanOnlyId, setCopiedPlanOnlyId] = useState<string | null>(null);
+
+  const copyShareUrl = useCallback(
+    async (
+      practice: SavedPractice,
+      includeNotes: boolean,
+      onCopied: (id: string | null) => void
+    ) => {
+      const url = encodeShareUrl(practice, { includeNotes });
+      try {
+        await navigator.clipboard.writeText(url);
+        onCopied(practice.id);
+        setTimeout(() => onCopied(null), 2000);
+      } catch {
+        const input = document.createElement("input");
+        input.value = url;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+        onCopied(practice.id);
+        setTimeout(() => onCopied(null), 2000);
+      }
+    },
+    []
+  );
 
   const handleShare = useCallback(async (practice: SavedPractice) => {
-    const url = encodeShareUrl(practice);
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopiedId(practice.id);
-      setTimeout(() => setCopiedId(null), 2000);
-    } catch {
-      // Fallback for older browsers
-      const input = document.createElement("input");
-      input.value = url;
-      document.body.appendChild(input);
-      input.select();
-      document.execCommand("copy");
-      document.body.removeChild(input);
-      setCopiedId(practice.id);
-      setTimeout(() => setCopiedId(null), 2000);
-    }
+    copyShareUrl(practice, true, setCopiedId);
+  }, [copyShareUrl]);
+
+  const handleSharePlanOnly = useCallback(async (practice: SavedPractice) => {
+    copyShareUrl(practice, false, setCopiedPlanOnlyId);
+  }, [copyShareUrl]);
+
+  const toggleCompleted = useCallback((practice: SavedPractice) => {
+    const completedAt = practice.completedAt ? undefined : new Date().toISOString();
+    updatePracticeCompleted(practice.id, completedAt);
+    setPractices((prev) =>
+      prev.map((p) =>
+        p.id === practice.id ? { ...p, completedAt } : p
+      )
+    );
   }, []);
 
   const hasNotes = (notes: SavedPractice["notes"]) =>
@@ -141,7 +174,12 @@ export default function History() {
               >
                 <div className="history-item-left">
                   <span className="history-date">{formatDate(practice.date)}</span>
-                  <span className="history-focus">{formatTitle(practice.focusKey)}</span>
+                  <span className="history-focus">
+                    {formatTitle(practice.focusKey)}
+                    {practice.completedAt && (
+                      <span className="status-pill">Complete</span>
+                    )}
+                  </span>
                   {!isExpanded && (
                     <span className="history-preview">{notesPreview(practice.notes)}</span>
                   )}
@@ -255,6 +293,20 @@ export default function History() {
                   </div>
 
                   <div className="history-actions">
+                    {onRepeatPractice && (
+                      <button
+                        className="btn-secondary"
+                        onClick={() => onRepeatPractice(practice)}
+                      >
+                        Repeat Practice
+                      </button>
+                    )}
+                    <button
+                      className="btn-secondary"
+                      onClick={() => toggleCompleted(practice)}
+                    >
+                      {practice.completedAt ? "Mark Open" : "Mark Complete"}
+                    </button>
                     <button
                       className={`btn-share ${copiedId === practice.id ? "copied" : ""}`}
                       onClick={() => handleShare(practice)}
@@ -262,6 +314,14 @@ export default function History() {
                       {copiedId === practice.id
                         ? "Link Copied!"
                         : "Share Practice"}
+                    </button>
+                    <button
+                      className={`btn-secondary ${copiedPlanOnlyId === practice.id ? "copied" : ""}`}
+                      onClick={() => handleSharePlanOnly(practice)}
+                    >
+                      {copiedPlanOnlyId === practice.id
+                        ? "Plan Link Copied!"
+                        : "Share Plan Only"}
                     </button>
                     <button
                       className="btn-danger"

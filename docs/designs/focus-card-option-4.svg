@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420">
+  <rect width="720" height="420" fill="#0f172a"/>
+  <text x="34" y="44" fill="#f97316" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="800" letter-spacing="1">OPTION 4</text>
+  <text x="34" y="72" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">Tabular Planner</text>
+  <text x="34" y="98" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="14">Most readable and operational: more like choosing from a practice menu.</text>
+
+  <g transform="translate(34 132)">
+    <rect width="652" height="236" rx="8" fill="#1f2937" stroke="#334155"/>
+    <rect width="652" height="42" rx="8" fill="#243044"/>
+    <text x="22" y="27" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900" letter-spacing=".6">FOCUS</text>
+    <text x="216" y="27" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900" letter-spacing=".6">WHAT IT TRAINS</text>
+    <text x="478" y="27" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900" letter-spacing=".6">READY</text>
+    <line x1="0" y1="86" x2="652" y2="86" stroke="#334155"/>
+    <line x1="0" y1="130" x2="652" y2="130" stroke="#334155"/>
+    <line x1="0" y1="174" x2="652" y2="174" stroke="#334155"/>
+    <line x1="0" y1="218" x2="652" y2="218" stroke="#334155"/>
+    <text x="22" y="70" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800">Cutting</text>
+    <text x="216" y="70" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="13">Separation, timing, burst mechanics</text>
+    <rect x="478" y="54" width="82" height="24" rx="12" fill="#c2410c"/>
+    <text x="519" y="71" fill="#fff" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900">Plan</text>
+    <text x="22" y="114" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800">Zone Defense</text>
+    <text x="216" y="114" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="13">3-2-2, 1-3-3, traps, rotation</text>
+    <rect x="478" y="98" width="82" height="24" rx="12" fill="#2b3648" stroke="#475569"/>
+    <text x="519" y="115" fill="#cbd5e1" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900">Plan</text>
+    <text x="22" y="158" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800">Handler Movement</text>
+    <text x="216" y="158" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="13">Resets, weaves, dump-swing flow</text>
+    <rect x="478" y="142" width="82" height="24" rx="12" fill="#2b3648" stroke="#475569"/>
+    <text x="519" y="159" fill="#cbd5e1" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900">Plan</text>
+    <text x="22" y="202" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800">Break Throws</text>
+    <text x="216" y="202" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="13">Releases, mark reads, footwork</text>
+    <rect x="478" y="186" width="82" height="24" rx="12" fill="#2b3648" stroke="#475569"/>
+    <text x="519" y="203" fill="#cbd5e1" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900">Plan</text>
+  </g>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420">
+  <rect width="720" height="420" fill="#0f172a"/>
+  <text x="34" y="44" fill="#f97316" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="800" letter-spacing="1">OPTION 1</text>
+  <text x="34" y="72" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">Compact Playbook Rows</text>
+  <text x="34" y="98" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="14">Best when coaches want to scan every focus fast without card sprawl.</text>
+
+  <g transform="translate(34 132)">
+    <rect width="652" height="74" rx="8" fill="#1f2937" stroke="#334155"/>
+    <rect width="5" height="74" rx="2.5" fill="#f97316"/>
+    <circle cx="42" cy="37" r="18" fill="#111827" stroke="#475569"/>
+    <text x="42" y="42" fill="#f97316" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900">CU</text>
+    <text x="76" y="32" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800">Cutting</text>
+    <text x="76" y="55" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="13">Power cuts, attack-column timing, separation games.</text>
+    <rect x="498" y="22" width="112" height="30" rx="15" fill="#c2410c"/>
+    <text x="554" y="42" fill="#fff" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800">Build Plan</text>
+    <path d="M625 31 L636 37 L625 43" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(34 218)">
+    <rect width="652" height="74" rx="8" fill="#182235" stroke="#334155"/>
+    <rect width="5" height="74" rx="2.5" fill="#38bdf8"/>
+    <circle cx="42" cy="37" r="18" fill="#111827" stroke="#475569"/>
+    <text x="42" y="42" fill="#38bdf8" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900">ZD</text>
+    <text x="76" y="32" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800">Zone Defense</text>
+    <text x="76" y="55" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="13">3-2-2, 1-3-3, shifting, traps, sideline communication.</text>
+    <rect x="506" y="22" width="104" height="30" rx="15" fill="#273449" stroke="#475569"/>
+    <text x="558" y="42" fill="#cbd5e1" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800">Preview</text>
+    <path d="M625 31 L636 37 L625 43" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(34 304)">
+    <rect width="652" height="74" rx="8" fill="#182235" stroke="#334155"/>
+    <rect width="5" height="74" rx="2.5" fill="#a78bfa"/>
+    <circle cx="42" cy="37" r="18" fill="#111827" stroke="#475569"/>
+    <text x="42" y="42" fill="#a78bfa" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="900">HM</text>
+    <text x="76" y="32" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800">Handler Movement</text>
+    <text x="76" y="55" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="13">Resets, weaves, dump-swing continuations, disc under pressure.</text>
+    <rect x="506" y="22" width="104" height="30" rx="15" fill="#273449" stroke="#475569"/>
+    <text x="558" y="42" fill="#cbd5e1" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800">Preview</text>
+    <path d="M625 31 L636 37 L625 43" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

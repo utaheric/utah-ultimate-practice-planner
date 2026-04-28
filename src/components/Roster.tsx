@@ -59,13 +59,15 @@ export default function Roster() {
       let total = 0;
 
       for (const att of allAttendance) {
+        const practice = practiceMap.get(att.practiceId);
+        if (!practice) continue;
+
         if (att.attendance[player.id] !== undefined) {
           total++;
           if (att.attendance[player.id]) {
             attended++;
           }
-          const practice = practiceMap.get(att.practiceId);
-          if (practice && (att.attendance[player.id] || att.playerNotes[player.id])) {
+          if (att.attendance[player.id] || att.playerNotes[player.id]) {
             logs.push({
               practiceId: att.practiceId,
               date: practice.date,
@@ -93,6 +95,11 @@ export default function Roster() {
 
   const removePlayer = useCallback(
     (id: string) => {
+      const player = players.find((p) => p.id === id);
+      const name = player?.name ?? "this player";
+      if (!window.confirm(`Remove ${name} from the roster? Attendance history will stay in saved practices.`)) {
+        return;
+      }
       const updated = players.filter((p) => p.id !== id);
       setPlayers(updated);
       saveRoster(updated);
@@ -115,6 +122,17 @@ export default function Roster() {
     saveRoster(updated);
     setEditingId(null);
   }, [editingId, editName, players]);
+
+  const updateWatchNotes = useCallback(
+    (id: string, watchNotes: string) => {
+      const updated = players.map((p) =>
+        p.id === id ? { ...p, watchNotes } : p
+      );
+      setPlayers(updated);
+      saveRoster(updated);
+    },
+    [players]
+  );
 
   return (
     <section className="roster-section">
@@ -162,18 +180,10 @@ export default function Roster() {
 
             return (
               <div key={player.id} className="roster-card">
-                <button
-                  className="roster-card-header"
-                  onClick={() =>
-                    setExpandedPlayer(isExpanded ? null : player.id)
-                  }
-                >
+                <div className="roster-card-header">
                   <div className="roster-card-left">
                     {isEditing ? (
-                      <div
-                        className="roster-edit-inline"
-                        onClick={(e) => e.stopPropagation()}
-                      >
+                      <div className="roster-edit-inline">
                         <input
                           type="text"
                           value={editName}
@@ -208,12 +218,20 @@ export default function Roster() {
                       </>
                     )}
                   </div>
-                  <span
-                    className={`drill-card-chevron ${isExpanded ? "expanded" : ""}`}
+                  <button
+                    className="roster-expand-btn"
+                    onClick={() =>
+                      setExpandedPlayer(isExpanded ? null : player.id)
+                    }
+                    aria-label={`${isExpanded ? "Collapse" : "Expand"} ${player.name}`}
                   >
-                    &#x25B6;
-                  </span>
-                </button>
+                    <span
+                      className={`drill-card-chevron ${isExpanded ? "expanded" : ""}`}
+                    >
+                      &#x25B6;
+                    </span>
+                  </button>
+                </div>
                 {isExpanded && (
                   <div className="roster-card-body">
                     <div className="roster-card-actions">
@@ -229,6 +247,20 @@ export default function Roster() {
                       >
                         Remove
                       </button>
+                    </div>
+                    <div className="roster-watch-notes">
+                      <label htmlFor={`watch-notes-${player.id}`}>
+                        Player watch notes
+                      </label>
+                      <textarea
+                        id={`watch-notes-${player.id}`}
+                        value={player.watchNotes ?? ""}
+                        onChange={(e) =>
+                          updateWatchNotes(player.id, e.target.value)
+                        }
+                        placeholder="Matchups, development goals, health notes, leadership moments..."
+                        rows={3}
+                      />
                     </div>
                     {stats && stats.logs.length > 0 ? (
                       <div className="roster-log">

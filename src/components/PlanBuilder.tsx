@@ -8,12 +8,15 @@ import {
   type Drill,
   type ScheduleBlock,
 } from "../data/drills";
+import { toLocalDateInputValue } from "../data/date";
 import {
   savePracticeToHistory,
   generateId,
+  loadBuiltInDrillOverrides,
   loadCustomDrills,
   loadRoster,
   saveAttendanceRecord,
+  type BuiltInDrillOverrides,
   type CustomDrill,
   type Player,
 } from "../data/storage";
@@ -21,6 +24,10 @@ import {
 interface Props {
   onBack: () => void;
   onSaved?: () => void;
+  initialPractice?: {
+    date?: string;
+    schedule: ScheduleBlock[];
+  } | null;
 }
 
 interface BuilderSlot {
@@ -33,7 +40,7 @@ interface BuilderSlot {
 
 interface CatalogDrill {
   drill: Drill;
-  focusArea: string;
+  focusAreas: string[];
   section: string;
   isCustom?: boolean;
 }
@@ -47,6 +54,7 @@ const SECTION_COLORS: Record<string, string> = {
   cooldown: "#6b7280",
   freeplay: "#ec4899",
   custom: "#0ea5e9",
+  extra: "#14b8a6",
 };
 
 function formatTitle(key: string): string {
@@ -57,7 +65,7 @@ function formatTitle(key: string): string {
 }
 
 function todayString(): string {
-  return new Date().toISOString().slice(0, 10);
+  return toLocalDateInputValue();
 }
 
 function formatDate(iso: string): string {
@@ -71,7 +79,10 @@ function formatDate(iso: string): string {
   });
 }
 
-function buildCatalog(customDrills: CustomDrill[]): CatalogDrill[] {
+function buildCatalog(
+  customDrills: CustomDrill[],
+  builtInOverrides: BuiltInDrillOverrides
+): CatalogDrill[] {
   const result: CatalogDrill[] = [];
   for (const focusKey of FOCUS_AREAS) {
     const sections = DRILL_LIBRARY[focusKey];
@@ -84,15 +95,36 @@ function buildCatalog(customDrills: CustomDrill[]): CatalogDrill[] {
       ["conditioning", sections.conditioning],
     ];
     for (const [sectionKey, drill] of entries) {
-      result.push({ drill, focusArea: focusKey, section: sectionKey });
+      const drillId = ["built-in", focusKey, sectionKey].join(":");
+      result.push({
+        drill: builtInOverrides[drillId] ?? drill,
+        focusAreas: [focusKey],
+        section: sectionKey,
+      });
+    }
+    for (const [index, drill] of (sections.extras ?? []).entries()) {
+      const drillId = ["built-in", focusKey, "extra", index].join(":");
+      result.push({
+        drill: builtInOverrides[drillId] ?? drill,
+        focusAreas: [focusKey],
+        section: "extra",
+      });
     }
   }
-  result.push({ drill: COOLDOWN, focusArea: "general", section: "cooldown" });
-  result.push({ drill: FREE_PLAY, focusArea: "general", section: "freeplay" });
+  result.push({
+    drill: builtInOverrides["built-in:general:cooldown"] ?? COOLDOWN,
+    focusAreas: ["general"],
+    section: "cooldown",
+  });
+  result.push({
+    drill: builtInOverrides["built-in:general:freeplay"] ?? FREE_PLAY,
+    focusAreas: ["general"],
+    section: "freeplay",
+  });
   for (const cd of customDrills) {
     result.push({
       drill: cd,
-      focusArea: cd.focusAreas[0] || "custom",
+      focusAreas: cd.focusAreas.length > 0 ? cd.focusAreas : ["custom"],
       section: "custom",
       isCustom: true,
     });
@@ -102,10 +134,18 @@ function buildCatalog(customDrills: CustomDrill[]): CatalogDrill[] {
 
 const DURATIONS = [60, 90, 120];
 
-export default function PlanBuilder({ onBack, onSaved }: Props) {
+export default function PlanBuilder({ onBack, onSaved, initialPractice }: Props) {
   const [totalDuration, setTotalDuration] = useState(120);
-  const [slots, setSlots] = useState<BuilderSlot[]>([]);
-  const [date, setDate] = useState(todayString);
+  const [slots, setSlots] = useState<BuilderSlot[]>(() =>
+    (initialPractice?.schedule ?? []).map((block) => ({
+      id: generateId(),
+      drill: block.drill,
+      duration: block.duration,
+      label: block.label,
+      sectionKey: block.sectionKey,
+    }))
+  );
+  const [date, setDate] = useState(() => initialPractice?.date ?? todayString());
   const [pickerOpen, setPickerOpen] = useState(false);
   const [filterFocus, setFilterFocus] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -123,12 +163,16 @@ export default function PlanBuilder({ onBack, onSaved }: Props) {
   const [playerNotes, setPlayerNotes] = useState<Record<string, string>>({});
 
   const customDrills = useMemo(() => loadCustomDrills(), []);
-  const catalog = useMemo(() => buildCatalog(customDrills), [customDrills]);
+  const builtInOverrides = useMemo(() => loadBuiltInDrillOverrides(), []);
+  const catalog = useMemo(
+    () => buildCatalog(customDrills, builtInOverrides),
+    [customDrills, builtInOverrides]
+  );
 
   const filteredCatalog = useMemo(() => {
     let items = catalog;
     if (filterFocus !== "all") {
-      items = items.filter((c) => c.focusArea === filterFocus);
+      items = items.filter((c) => c.focusAreas.includes(filterFocus));
     }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -141,19 +185,18 @@ export default function PlanBuilder({ onBack, onSaved }: Props) {
   const remainingMinutes = totalDuration - usedMinutes;
 
   const schedule: ScheduleBlock[] = useMemo(() => {
-    let time = 0;
-    return slots.map((s) => {
-      const block: ScheduleBlock = {
-        startMin: time,
-        endMin: time + s.duration,
-        label: s.label,
-        drill: s.drill,
-        duration: s.duration,
-        sectionKey: s.sectionKey,
-      };
-      time += s.duration;
-      return block;
-    });
+    return slots.reduce<ScheduleBlock[]>((blocks, slot) => {
+      const startMin = blocks.at(-1)?.endMin ?? 0;
+      blocks.push({
+        startMin,
+        endMin: startMin + slot.duration,
+        label: slot.label,
+        drill: slot.drill,
+        duration: slot.duration,
+        sectionKey: slot.sectionKey,
+      });
+      return blocks;
+    }, []);
   }, [slots]);
 
   const equipment = useMemo(() => aggregateEquipment(schedule), [schedule]);
@@ -304,65 +347,221 @@ export default function PlanBuilder({ onBack, onSaved }: Props) {
         </div>
       </div>
 
-      {equipment.length > 0 && (
-        <section className="equipment-section">
-          <h3>Equipment Needed</h3>
-          <div className="equipment-tags">
-            {equipment.map((e) => (
-              <span key={e.name} className="equipment-tag">
-                {e.name} <strong>({e.count})</strong>
-              </span>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Timeline visualization */}
-      {slots.length > 0 && (
-        <section className="timeline-section">
-          <h3>Schedule Overview</h3>
-          <div className="timeline">
-            {schedule.map((block) => (
-              <div
-                key={block.startMin + "-" + block.sectionKey}
-                className="timeline-block"
-                style={
-                  {
-                    "--block-color":
-                      SECTION_COLORS[block.sectionKey] || "#0ea5e9",
-                    flex: block.duration,
-                  } as React.CSSProperties
-                }
-              >
-                <span className="timeline-label">{block.drill.name}</span>
-                <span className="timeline-time">
-                  {block.startMin}–{block.endMin} min
-                </span>
+      <div className="builder-workspace">
+        <div className="builder-main-column">
+          {equipment.length > 0 && (
+            <section className="equipment-section">
+              <h3>Equipment Needed</h3>
+              <div className="equipment-tags">
+                {equipment.map((e) => (
+                  <span key={e.name} className="equipment-tag">
+                    {e.name} <strong>({e.count})</strong>
+                  </span>
+                ))}
               </div>
-            ))}
-            {remainingMinutes > 0 && (
-              <div
-                className="timeline-block timeline-empty"
-                style={
-                  {
-                    "--block-color": "#94a3b8",
-                    flex: remainingMinutes,
-                    opacity: 0.4,
-                  } as React.CSSProperties
-                }
+            </section>
+          )}
+
+          {/* Timeline visualization */}
+          {slots.length > 0 && (
+            <section className="timeline-section">
+              <h3>Schedule Overview</h3>
+              <div className="timeline">
+                {schedule.map((block) => (
+                  <div
+                    key={block.startMin + "-" + block.sectionKey}
+                    className="timeline-block"
+                    style={
+                      {
+                        "--block-color":
+                          SECTION_COLORS[block.sectionKey] || "#0ea5e9",
+                        flex: block.duration,
+                      } as React.CSSProperties
+                    }
+                  >
+                    <span className="timeline-label">{block.drill.name}</span>
+                    <span className="timeline-time">
+                      {block.startMin}–{block.endMin} min
+                    </span>
+                  </div>
+                ))}
+                {remainingMinutes > 0 && (
+                  <div
+                    className="timeline-block timeline-empty"
+                    style={
+                      {
+                        "--block-color": "#94a3b8",
+                        flex: remainingMinutes,
+                        opacity: 0.4,
+                      } as React.CSSProperties
+                    }
+                  >
+                    <span className="timeline-label">Empty</span>
+                    <span className="timeline-time">{remainingMinutes} min</span>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
+          {/* Slot list */}
+          <section className="builder-slots">
+            <div className="builder-slots-header">
+              <h3>Drills ({slots.length})</h3>
+              <button
+                className="btn-primary"
+                onClick={() => setPickerOpen(true)}
+                disabled={remainingMinutes <= 0}
               >
-                <span className="timeline-label">Empty</span>
-                <span className="timeline-time">{remainingMinutes} min</span>
+                + Add Drill
+              </button>
+            </div>
+
+            {slots.length === 0 && (
+              <div className="builder-empty">
+                <p>No drills added yet. Click "Add Drill" to start building your practice.</p>
               </div>
             )}
-          </div>
-        </section>
-      )}
 
-      {/* Slot list */}
-      <section className="builder-slots">
-        <div className="builder-slots-header">
-          <h3>Drills ({slots.length})</h3>
+            <div className="builder-slot-list">
+              {slots.map((slot, idx) => (
+                <div
+                  key={slot.id}
+                  className={`builder-slot ${dragOverIdx === idx ? "drag-over" : ""}`}
+                  draggable
+                  onDragStart={() => handleDragStart(idx)}
+                  onDragOver={(e) => handleDragOver(e, idx)}
+                  onDrop={(e) => handleDrop(e, idx)}
+                  onDragEnd={handleDragEnd}
+                >
+                  <div
+                    className="builder-slot-accent"
+                    style={{
+                      background:
+                        SECTION_COLORS[slot.sectionKey] || "#0ea5e9",
+                    }}
+                  />
+                  <div className="builder-slot-info">
+                    <span className="builder-slot-name">{slot.drill.name}</span>
+                    <span className="builder-slot-meta">
+                      {slot.sectionKey !== "custom" && formatTitle(slot.sectionKey)} &middot; {schedule[idx]?.startMin}–{schedule[idx]?.endMin} min
+                    </span>
+                  </div>
+                  <div className="builder-slot-controls">
+                    <div className="builder-slot-reorder no-print">
+                      <button
+                        className="builder-move-btn"
+                        onClick={() => moveUp(idx)}
+                        disabled={idx === 0}
+                        title="Move up"
+                      >
+                        &#x25B2;
+                      </button>
+                      <button
+                        className="builder-move-btn"
+                        onClick={() => moveDown(idx)}
+                        disabled={idx === slots.length - 1}
+                        title="Move down"
+                      >
+                        &#x25BC;
+                      </button>
+                    </div>
+                    <div className="builder-duration-controls">
+                      <button
+                        className="builder-dur-ctrl"
+                        onClick={() => adjustDuration(slot.id, -5)}
+                        disabled={slot.duration <= 5}
+                      >
+                        -
+                      </button>
+                      <span className="builder-dur-value">{slot.duration}m</span>
+                      <button
+                        className="builder-dur-ctrl"
+                        onClick={() => adjustDuration(slot.id, 5)}
+                        disabled={remainingMinutes <= 0}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button
+                      className="builder-remove-btn no-print"
+                      onClick={() => removeSlot(slot.id)}
+                      title="Remove"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Attendance section */}
+          {roster.length > 0 && (
+            <section className="attendance-section">
+              <h3>Attendance</h3>
+              <div className="attendance-grid">
+                {roster.map((player: Player) => (
+                  <div key={player.id} className="attendance-row">
+                    <label className="attendance-check">
+                      <input
+                        type="checkbox"
+                        checked={attendance[player.id] ?? false}
+                        onChange={(e) =>
+                          setAttendance((prev) => ({
+                            ...prev,
+                            [player.id]: e.target.checked,
+                          }))
+                        }
+                      />
+                      <span>{player.name}</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="attendance-note-input"
+                      placeholder="Notes..."
+                      value={playerNotes[player.id] || ""}
+                      onChange={(e) =>
+                        setPlayerNotes((prev) => ({
+                          ...prev,
+                          [player.id]: e.target.value,
+                        }))
+                      }
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <div className="print-bar no-print">
+            <button className="print-button" onClick={() => window.print()}>
+              Print Practice Plan
+            </button>
+            <button
+              className={`save-button ${saved ? "saved" : ""}`}
+              onClick={handleSave}
+              disabled={saved || slots.length === 0}
+            >
+              {saved ? "Saved!" : "Save Practice"}
+            </button>
+          </div>
+        </div>
+
+        <aside className="builder-summary-panel no-print">
+          <span className="section-kicker">Practice Snapshot</span>
+          <div className="builder-summary-stat">
+            <strong>{usedMinutes}</strong>
+            <span>minutes planned</span>
+          </div>
+          <div className="builder-summary-stat">
+            <strong>{remainingMinutes}</strong>
+            <span>minutes remaining</span>
+          </div>
+          <div className="builder-summary-stat">
+            <strong>{slots.length}</strong>
+            <span>drill blocks</span>
+          </div>
           <button
             className="btn-primary"
             onClick={() => setPickerOpen(true)}
@@ -370,136 +569,19 @@ export default function PlanBuilder({ onBack, onSaved }: Props) {
           >
             + Add Drill
           </button>
-        </div>
-
-        {slots.length === 0 && (
-          <div className="builder-empty">
-            <p>No drills added yet. Click "Add Drill" to start building your practice.</p>
-          </div>
-        )}
-
-        <div className="builder-slot-list">
-          {slots.map((slot, idx) => (
-            <div
-              key={slot.id}
-              className={`builder-slot ${dragOverIdx === idx ? "drag-over" : ""}`}
-              draggable
-              onDragStart={() => handleDragStart(idx)}
-              onDragOver={(e) => handleDragOver(e, idx)}
-              onDrop={(e) => handleDrop(e, idx)}
-              onDragEnd={handleDragEnd}
-            >
-              <div
-                className="builder-slot-accent"
-                style={{
-                  background:
-                    SECTION_COLORS[slot.sectionKey] || "#0ea5e9",
-                }}
-              />
-              <div className="builder-slot-info">
-                <span className="builder-slot-name">{slot.drill.name}</span>
-                <span className="builder-slot-meta">
-                  {slot.sectionKey !== "custom" && formatTitle(slot.sectionKey)} &middot; {schedule[idx]?.startMin}–{schedule[idx]?.endMin} min
-                </span>
-              </div>
-              <div className="builder-slot-controls">
-                <div className="builder-slot-reorder no-print">
-                  <button
-                    className="builder-move-btn"
-                    onClick={() => moveUp(idx)}
-                    disabled={idx === 0}
-                    title="Move up"
-                  >
-                    &#x25B2;
-                  </button>
-                  <button
-                    className="builder-move-btn"
-                    onClick={() => moveDown(idx)}
-                    disabled={idx === slots.length - 1}
-                    title="Move down"
-                  >
-                    &#x25BC;
-                  </button>
-                </div>
-                <div className="builder-duration-controls">
-                  <button
-                    className="builder-dur-ctrl"
-                    onClick={() => adjustDuration(slot.id, -5)}
-                    disabled={slot.duration <= 5}
-                  >
-                    -
-                  </button>
-                  <span className="builder-dur-value">{slot.duration}m</span>
-                  <button
-                    className="builder-dur-ctrl"
-                    onClick={() => adjustDuration(slot.id, 5)}
-                    disabled={remainingMinutes <= 0}
-                  >
-                    +
-                  </button>
-                </div>
-                <button
-                  className="builder-remove-btn no-print"
-                  onClick={() => removeSlot(slot.id)}
-                  title="Remove"
-                >
-                  &times;
-                </button>
+          {equipment.length > 0 && (
+            <div className="builder-summary-equipment">
+              <span className="builder-summary-label">Equipment</span>
+              <div className="equipment-tags small">
+                {equipment.slice(0, 5).map((e) => (
+                  <span key={e.name} className="equipment-tag small">
+                    {e.name} ({e.count})
+                  </span>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Attendance section */}
-      {roster.length > 0 && (
-        <section className="attendance-section">
-          <h3>Attendance</h3>
-          <div className="attendance-grid">
-            {roster.map((player: Player) => (
-              <div key={player.id} className="attendance-row">
-                <label className="attendance-check">
-                  <input
-                    type="checkbox"
-                    checked={attendance[player.id] ?? false}
-                    onChange={(e) =>
-                      setAttendance((prev) => ({
-                        ...prev,
-                        [player.id]: e.target.checked,
-                      }))
-                    }
-                  />
-                  <span>{player.name}</span>
-                </label>
-                <input
-                  type="text"
-                  className="attendance-note-input"
-                  placeholder="Notes..."
-                  value={playerNotes[player.id] || ""}
-                  onChange={(e) =>
-                    setPlayerNotes((prev) => ({
-                      ...prev,
-                      [player.id]: e.target.value,
-                    }))
-                  }
-                />
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      <div className="print-bar no-print">
-        <button className="print-button" onClick={() => window.print()}>
-          Print Practice Plan
-        </button>
-        <button
-          className={`save-button ${saved ? "saved" : ""}`}
-          onClick={handleSave}
-          disabled={saved || slots.length === 0}
-        >
-          {saved ? "Saved!" : "Save Practice"}
-        </button>
+          )}
+        </aside>
       </div>
 
       {/* Drill Picker Modal */}
@@ -560,7 +642,7 @@ export default function PlanBuilder({ onBack, onSaved }: Props) {
                   <div className="picker-item-info">
                     <span className="picker-item-name">{item.drill.name}</span>
                     <span className="picker-item-meta">
-                      {formatTitle(item.focusArea)}{" "}
+                      {item.focusAreas.map(formatTitle).join(", ")}{" "}
                       {item.isCustom && (
                         <span className="swap-badge">Custom</span>
                       )}

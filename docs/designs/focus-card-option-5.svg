@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420">
+  <rect width="720" height="420" fill="#0f172a"/>
+  <text x="34" y="44" fill="#f97316" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="800" letter-spacing="1">OPTION 5</text>
+  <text x="34" y="72" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">Featured Focus + Small Grid</text>
+  <text x="34" y="98" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="14">Gives one recommended action prominence while keeping alternatives compact.</text>
+
+  <g transform="translate(34 130)">
+    <rect width="310" height="244" rx="8" fill="#7c2d12" stroke="#f97316"/>
+    <text x="24" y="35" fill="#fed7aa" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="900" letter-spacing=".8">RECOMMENDED TODAY</text>
+    <text x="24" y="78" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="900">Cutting</text>
+    <text x="24" y="111" fill="#ffedd5" font-family="Inter, Arial, sans-serif" font-size="15">Build sharp changes of direction,</text>
+    <text x="24" y="134" fill="#ffedd5" font-family="Inter, Arial, sans-serif" font-size="15">attack-column timing, and 2v2</text>
+    <text x="24" y="157" fill="#ffedd5" font-family="Inter, Arial, sans-serif" font-size="15">separation habits.</text>
+    <rect x="24" y="188" width="116" height="34" rx="17" fill="#fff"/>
+    <text x="82" y="210" fill="#9a3412" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="900">Use Cutting</text>
+    <circle cx="254" cy="60" r="34" fill="none" stroke="#fed7aa" stroke-width="2"/>
+    <text x="254" y="69" fill="#fed7aa" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="900">CU</text>
+  </g>
+  <g transform="translate(374 130)">
+    <rect width="148" height="110" rx="8" fill="#1f2937" stroke="#334155"/>
+    <text x="18" y="35" fill="#38bdf8" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="900">ZD</text>
+    <text x="18" y="64" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800">Zone</text>
+    <text x="18" y="86" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="12">Defensive shape</text>
+    <rect x="118" y="22" width="12" height="66" rx="6" fill="#38bdf8" opacity=".7"/>
+  </g>
+  <g transform="translate(538 130)">
+    <rect width="148" height="110" rx="8" fill="#1f2937" stroke="#334155"/>
+    <text x="18" y="35" fill="#a78bfa" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="900">HM</text>
+    <text x="18" y="64" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800">Handlers</text>
+    <text x="18" y="86" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="12">Reset movement</text>
+    <rect x="118" y="22" width="12" height="66" rx="6" fill="#a78bfa" opacity=".7"/>
+  </g>
+  <g transform="translate(374 264)">
+    <rect width="148" height="110" rx="8" fill="#1f2937" stroke="#334155"/>
+    <text x="18" y="35" fill="#fbbf24" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="900">BT</text>
+    <text x="18" y="64" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800">Breaks</text>
+    <text x="18" y="86" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="12">Throwing toolkit</text>
+    <rect x="118" y="22" width="12" height="66" rx="6" fill="#fbbf24" opacity=".7"/>
+  </g>
+  <g transform="translate(538 264)">
+    <rect width="148" height="110" rx="8" fill="#1f2937" stroke="#334155"/>
+    <text x="18" y="35" fill="#34d399" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="900">RZ</text>
+    <text x="18" y="64" fill="#e5e7eb" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800">Red Zone</text>
+    <text x="18" y="86" fill="#94a3b8" font-family="Inter, Arial, sans-serif" font-size="12">Small space attack</text>
+    <rect x="118" y="22" width="12" height="66" rx="6" fill="#34d399" opacity=".7"/>
+  </g>
+</svg>

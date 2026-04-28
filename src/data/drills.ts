@@ -16,6 +16,30 @@ export interface FocusArea {
   conditioning: Drill;
 }
 
+export interface FocusAreaDrillSet
+  extends Omit<FocusArea, "key" | "label" | "description"> {
+  extras?: Drill[];
+}
+
+export interface EditableBuiltInDrill extends Drill {
+  id: string;
+  focusAreas: string[];
+  sectionKey: string;
+  sectionLabel: string;
+  isOverridden: boolean;
+}
+
+const SECTION_LABELS: Record<string, string> = {
+  warmup: "Warm-Up",
+  drill_1: "Skill Drill 1",
+  drill_2: "Skill Drill 2",
+  scrimmage: "Scrimmage",
+  conditioning: "Conditioning",
+  extra: "Extra Drill",
+  cooldown: "Cool-Down",
+  freeplay: "Free Play",
+};
+
 export const COOLDOWN: Drill & { duration: number } = {
   name: "Cool-Down & Debrief",
   duration: 5,
@@ -65,7 +89,7 @@ export const FOCUS_AREA_DESCRIPTIONS: Record<string, string> = {
     "The primary offensive engine: cutter-to-cutter continuations through the attack column, power cuts under and deep, varied stack formations (3-2, 4-1, 2-1-2), and breaking the force side.",
 };
 
-export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "description">> = {
+export const DRILL_LIBRARY: Record<string, FocusAreaDrillSet> = {
   cutting: {
     warmup: {
       name: "Dynamic Cuts Warm-Up",
@@ -122,6 +146,41 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
       ],
       equipment: ["cones (3)"],
     },
+    extras: [
+      {
+        name: "1v1 Under-Deep Decision",
+        description:
+          "Set a handler with a disc and a cutter-defender pair 18 to 20 yards away. On the tap-in, the cutter sells a fake and attacks either under or deep. The defender plays live and tries to win the first step. Rotate every rep. Add a live mark to make the handler hold shape and throw on time.",
+        coaching_points: [
+          "Win with the first 3 steps, not with a slow double move",
+          "Sell the fake with hips and shoulders, then plant hard and go",
+          "Handler throws to the lane that actually won, not the lane they hoped would win",
+        ],
+        equipment: ["cones (4)", "discs (3)"],
+      },
+      {
+        name: "Continuation Cut Chain",
+        description:
+          "Three cutters and one handler. Cutter 1 attacks under and receives. As that throw is released, Cutter 2 times a deep continuation. If the deep window is late or the defender stays on top, Cutter 2 bends back under into the space created by the first cut. Reset quickly and keep the rhythm high.",
+        coaching_points: [
+          "Second cutter moves on the first throw, not after the catch",
+          "If the deep shot is late, come back under into the space you created",
+          "First cutter clears hard after the catch so the continuation lane stays open",
+        ],
+        equipment: ["cones (6)", "discs (4)"],
+      },
+      {
+        name: "Breakside J-Cut Timing",
+        description:
+          "Place a cutter on the break side and a handler with a mark. The cutter pushes up the break lane, continues to about 10 yards from the thrower, then plants and J-cuts back into the live-side lane. The handler reads whether the break is really available or whether the cutter should be hit as they bend back across.",
+        coaching_points: [
+          "Push far enough break side to move the defender before you bend the route",
+          "Throwers should challenge the break only when they have the angle",
+          "Cutter and thrower must read each other early, this drill dies if both react late",
+        ],
+        equipment: ["cones (5)", "discs (3)"],
+      },
+    ],
   },
   "zone defense": {
     warmup: {
@@ -407,6 +466,41 @@ export const DRILL_LIBRARY: Record<string, Omit<FocusArea, "key" | "label" | "de
       ],
       equipment: ["cones (4)", "discs (4)"],
     },
+    extras: [
+      {
+        name: "Give-Go-Swill",
+        description:
+          "Set up 7 to 12 players with one live offensive player, one defender, and the rest as connected static players. The live cutter-handler works the disc downhill using only connected options and must use at least one far-side static player before finishing at the end target. When the disc reaches the end, that player throws a floaty return shot back toward the start so both offense and defense can attack it.",
+        coaching_points: [
+          "Advance through give-go rhythm and misdirection, not by staring at the end target",
+          "Use the far side, if every touch stays on the same side the shape gets sticky",
+          "Static players should communicate early and put the return pass where the runner can attack it",
+        ],
+        equipment: ["cones (6)", "discs (3)"],
+      },
+      {
+        name: "4v4 Triangle Game",
+        description:
+          "Play 4v4 in a 30x40 yard box. Start each rep from a static disc and require the offense to build connected triangles around the thrower instead of flooding the disc. Freeze and reset whenever spacing gets too tight or a player gets disconnected. Play short games to 3 so the reps stay sharp.",
+        coaching_points: [
+          "If you are lost, find two teammates and make a clean triangle without crowding them",
+          "Only the nearby triangle should connect directly to the thrower, not everybody at once",
+          "When one player cuts toward you, someone else should balance the shape by drifting out or filling behind",
+        ],
+        equipment: ["cones (4)", "discs (2)", "pinnies (8)"],
+      },
+      {
+        name: "5v5 Keepdisc Waves",
+        description:
+          "Play 5v5 or 7v7 in a roomy half-field box. Teams alternate 60-second possession waves, trying to keep the disc for the full rep while staying in hex shape. Score 1 point for holding possession when the whistle blows. Reset quickly and run several waves so players feel how efficient movement matters under fatigue.",
+        coaching_points: [
+          "Do not surround the disc, only a few players should be directly connected to the thrower",
+          "Take the easy pass even if it is sideways or backward, sustainable possession is the goal",
+          "When you feel crowded, someone else is usually disconnected, fix the chain not just your own spot",
+        ],
+        equipment: ["cones (4)", "discs (3)", "pinnies (10)"],
+      },
+    ],
   },
   "reset corners": {
     warmup: {
@@ -647,18 +741,171 @@ export interface ScheduleBlock {
   sectionKey: string;
 }
 
-export function generateSchedule(focusKey: string): ScheduleBlock[] {
+function getBuiltInDrillId(
+  focusKey: string,
+  sectionKey: string,
+  index?: number
+): string {
+  return ["built-in", focusKey, sectionKey, index]
+    .filter((value) => value !== undefined)
+    .join(":");
+}
+
+function resolveBuiltInDrill(
+  drillId: string,
+  fallback: Drill,
+  overrides: Record<string, Drill>
+): Drill {
+  return overrides[drillId] ?? fallback;
+}
+
+export function listEditableBuiltInDrills(
+  overrides: Record<string, Drill> = {}
+): EditableBuiltInDrill[] {
+  const drills: EditableBuiltInDrill[] = [];
+
+  for (const focusKey of Object.keys(DRILL_LIBRARY)) {
+    const focusSet = DRILL_LIBRARY[focusKey];
+    const baseSections: Array<[string, Drill]> = [
+      ["warmup", focusSet.warmup],
+      ["drill_1", focusSet.drill_1],
+      ["drill_2", focusSet.drill_2],
+      ["scrimmage", focusSet.scrimmage],
+      ["conditioning", focusSet.conditioning],
+    ];
+
+    for (const [sectionKey, drill] of baseSections) {
+      const id = getBuiltInDrillId(focusKey, sectionKey);
+      drills.push({
+        ...resolveBuiltInDrill(id, drill, overrides),
+        id,
+        focusAreas: [focusKey],
+        sectionKey,
+        sectionLabel: SECTION_LABELS[sectionKey] ?? sectionKey,
+        isOverridden: !!overrides[id],
+      });
+    }
+
+    for (const [index, drill] of (focusSet.extras ?? []).entries()) {
+      const id = getBuiltInDrillId(focusKey, "extra", index);
+      drills.push({
+        ...resolveBuiltInDrill(id, drill, overrides),
+        id,
+        focusAreas: [focusKey],
+        sectionKey: "extra",
+        sectionLabel: SECTION_LABELS.extra,
+        isOverridden: !!overrides[id],
+      });
+    }
+  }
+
+  const generalDrills: Array<[string, Drill]> = [
+    ["cooldown", COOLDOWN],
+    ["freeplay", FREE_PLAY],
+  ];
+
+  for (const [sectionKey, drill] of generalDrills) {
+    const id = getBuiltInDrillId("general", sectionKey);
+    drills.push({
+      ...resolveBuiltInDrill(id, drill, overrides),
+      id,
+      focusAreas: ["general"],
+      sectionKey,
+      sectionLabel: SECTION_LABELS[sectionKey] ?? sectionKey,
+      isOverridden: !!overrides[id],
+    });
+  }
+
+  return drills;
+}
+
+export function getExtraDrillsForFocus(
+  focusKey: string,
+  overrides: Record<string, Drill> = {}
+): Drill[] {
+  return (DRILL_LIBRARY[focusKey]?.extras ?? []).map((drill, index) =>
+    resolveBuiltInDrill(getBuiltInDrillId(focusKey, "extra", index), drill, overrides)
+  );
+}
+
+export function generateSchedule(
+  focusKey: string,
+  overrides: Record<string, Drill> = {}
+): ScheduleBlock[] {
   const drills = DRILL_LIBRARY[focusKey];
   if (!drills) return [];
 
   const sections: { key: string; label: string; drill: Drill; duration: number }[] = [
-    { key: "warmup", label: "Warm-Up", drill: drills.warmup, duration: 15 },
-    { key: "drill_1", label: "Skill Drill 1", drill: drills.drill_1, duration: 20 },
-    { key: "drill_2", label: "Skill Drill 2", drill: drills.drill_2, duration: 20 },
-    { key: "scrimmage", label: "Scrimmage", drill: drills.scrimmage, duration: 30 },
-    { key: "conditioning", label: "Conditioning", drill: drills.conditioning, duration: 15 },
-    { key: "cooldown", label: "Cool-Down", drill: COOLDOWN, duration: COOLDOWN.duration },
-    { key: "freeplay", label: "Free Play", drill: FREE_PLAY, duration: FREE_PLAY.duration },
+    {
+      key: "warmup",
+      label: "Warm-Up",
+      drill: resolveBuiltInDrill(
+        getBuiltInDrillId(focusKey, "warmup"),
+        drills.warmup,
+        overrides
+      ),
+      duration: 15,
+    },
+    {
+      key: "drill_1",
+      label: "Skill Drill 1",
+      drill: resolveBuiltInDrill(
+        getBuiltInDrillId(focusKey, "drill_1"),
+        drills.drill_1,
+        overrides
+      ),
+      duration: 20,
+    },
+    {
+      key: "drill_2",
+      label: "Skill Drill 2",
+      drill: resolveBuiltInDrill(
+        getBuiltInDrillId(focusKey, "drill_2"),
+        drills.drill_2,
+        overrides
+      ),
+      duration: 20,
+    },
+    {
+      key: "scrimmage",
+      label: "Scrimmage",
+      drill: resolveBuiltInDrill(
+        getBuiltInDrillId(focusKey, "scrimmage"),
+        drills.scrimmage,
+        overrides
+      ),
+      duration: 30,
+    },
+    {
+      key: "conditioning",
+      label: "Conditioning",
+      drill: resolveBuiltInDrill(
+        getBuiltInDrillId(focusKey, "conditioning"),
+        drills.conditioning,
+        overrides
+      ),
+      duration: 15,
+    },
+    {
+      key: "cooldown",
+      label: "Cool-Down",
+      drill: resolveBuiltInDrill(
+        getBuiltInDrillId("general", "cooldown"),
+        COOLDOWN,
+        overrides
+      ),
+      duration: COOLDOWN.duration,
+    },
+    {
+      key: "freeplay",
+      label: "Free Play",
+      drill: resolveBuiltInDrill(
+        getBuiltInDrillId("general", "freeplay"),
+        FREE_PLAY,
+        overrides
+      ),
+      duration: FREE_PLAY.duration,
+    },
   ];
 
   let time = 0;

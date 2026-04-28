@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { FOCUS_AREAS } from "../data/drills";
+import { toLocalDateInputValue } from "../data/date";
 import {
   loadSeasonPlan,
   saveSeasonPlan,
@@ -40,7 +41,7 @@ function generateWeeks(startDate: string, endDate: string): SeasonWeek[] {
   const current = new Date(start);
   while (current <= end) {
     weeks.push({
-      weekStart: current.toISOString().slice(0, 10),
+      weekStart: toLocalDateInputValue(current),
       focusArea: null,
     });
     current.setDate(current.getDate() + 7);
@@ -63,13 +64,13 @@ function formatMonthYear(iso: string): string {
 export default function SeasonCalendar() {
   const [plan, setPlan] = useState<SeasonPlan | null>(loadSeasonPlan);
   const [startDate, setStartDate] = useState(
-    plan?.startDate || new Date().toISOString().slice(0, 10)
+    plan?.startDate || toLocalDateInputValue()
   );
   const [endDate, setEndDate] = useState(() => {
     if (plan?.endDate) return plan.endDate;
     const d = new Date();
     d.setMonth(d.getMonth() + 3);
-    return d.toISOString().slice(0, 10);
+    return toLocalDateInputValue(d);
   });
   const [editingWeek, setEditingWeek] = useState<number | null>(null);
 
@@ -262,7 +263,10 @@ export default function SeasonCalendar() {
                               <button
                                 key={fa}
                                 className="season-dropdown-item"
-                                onClick={() => assignFocus(idx, fa)}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  assignFocus(idx, fa);
+                                }}
                               >
                                 <span
                                   className="season-color-dot"
@@ -274,7 +278,10 @@ export default function SeasonCalendar() {
                             {week.focusArea && (
                               <button
                                 className="season-dropdown-item season-dropdown-clear"
-                                onClick={() => assignFocus(idx, null)}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  assignFocus(idx, null);
+                                }}
                               >
                                 Clear
                               </button>
